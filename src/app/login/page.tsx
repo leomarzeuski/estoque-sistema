@@ -3,7 +3,10 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 import * as z from "zod";
+import { useRouter } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -13,17 +16,17 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import Image from "next/image";
 import Logo from "@/assets/Logo.png";
+import { useAuth } from "@/context/AuthContext";
 
-const loginSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
+import { loginSchema } from "./schema";
 
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 const Login: React.FC = () => {
+  const { login } = useAuth();
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -34,6 +37,14 @@ const Login: React.FC = () => {
 
   const onSubmit = (data: LoginFormValues) => {
     console.log("Login data:", data);
+
+    // TODO
+    /**
+     * o auth está salvando o email temporariamente, a ideia é enviar para o back email/senha
+     * receber um token e salvar
+     */
+    login({ email: data.email });
+    router.push("/");
   };
 
   return (

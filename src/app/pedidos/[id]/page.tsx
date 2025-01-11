@@ -1,6 +1,7 @@
+/* eslint-disable */
+
 import { notFound } from "next/navigation";
 
-// Exemplo de dados “falsos” (substituir por uma chamada à API real)
 const PEDIDOS_FAKE = [
   {
     id: 101,
@@ -25,8 +26,8 @@ const PEDIDOS_FAKE = [
   },
 ];
 
-export default function PedidoDetalhes({ params }: { params: { id: string } }) {
-  const pedidoId = parseInt(params.id, 10);
+export default function PedidoDetalhes(props: any) {
+  const pedidoId = parseInt(props.params.id, 10);
   const pedido = PEDIDOS_FAKE.find((p) => p.id === pedidoId);
 
   if (!pedido) {

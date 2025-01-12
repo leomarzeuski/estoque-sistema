@@ -1,8 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/navbar";
+
 import { MobileBottomNav } from "../bottomNavbar";
 
 interface ResponsiveLayoutProps {
@@ -10,6 +13,7 @@ interface ResponsiveLayoutProps {
 }
 
 export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
+  const pathname = usePathname();
   const [isWeb, setIsWeb] = useState(false);
 
   useEffect(() => {
@@ -17,6 +21,10 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
       setIsWeb(!/Mobi|Android/i.test(navigator.userAgent));
     }
   }, []);
+
+  if (pathname === "/login") {
+    return <main className="flex-1">{children}</main>;
+  }
 
   return (
     <SidebarProvider>

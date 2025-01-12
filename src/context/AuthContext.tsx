@@ -1,15 +1,26 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
+import Cookies from "js-cookie";
 
-// Define the types for user data and the context
+import { COOKIES } from "@/constants/cookies";
+import { STORAGE } from "@/constants/storage";
+
 interface User {
   email: string;
 }
 
 interface AuthContextType {
   user: User | null;
-  login: (userData: User) => void;
+  token: string | null;
+  loading: boolean;
+  login: (userData: User, token: string) => void;
   logout: () => void;
 }
 
@@ -20,20 +31,38 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
-  const login = (userData: User) => {
+  const login = (userData: User, token: string) => {
     setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData));
+    setToken(token);
+    localStorage.setItem(STORAGE.USER_DATA, JSON.stringify(userData));
+    Cookies.set(COOKIES.USER_TOKEN, token, { expires: 7 });
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("user");
+    setToken(null);
+    localStorage.removeItem(STORAGE.USER_DATA);
+    Cookies.remove(COOKIES.USER_TOKEN);
   };
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem(STORAGE.USER_DATA);
+    const storedToken = Cookies.get(COOKIES.USER_TOKEN);
+
+    if (storedUser && storedToken) {
+      setUser(JSON.parse(storedUser));
+      setToken(storedToken);
+    }
+
+    setLoading(false);
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, token, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

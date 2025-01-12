@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
@@ -43,7 +42,7 @@ const Login: React.FC = () => {
      * o auth está salvando o email temporariamente, a ideia é enviar para o back email/senha
      * receber um token e salvar
      */
-    login({ email: data.email });
+    login({ email: data.email }, "tempToken");
     router.push("/");
   };
 

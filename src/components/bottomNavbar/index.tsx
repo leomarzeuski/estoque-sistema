@@ -1,8 +1,9 @@
 "use client";
 
-import { NavItems } from "@/data/menuItems";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
+import { NavItems } from "@/data/menuItems";
 
 export function MobileBottomNav() {
   const pathname = usePathname();

@@ -25,6 +25,8 @@ export interface Produto {
   estoqueMinimo: number;
   /** Fornecedor / box de origem (opcional). */
   fornecedor?: string;
+  /** Marcado como favorito (aparece no topo da lista). */
+  favorito?: boolean;
   /** Anotações livres (opcional). */
   observacao?: string;
   /** Data de criação (ISO 8601). */

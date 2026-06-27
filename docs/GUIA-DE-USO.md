@@ -49,6 +49,10 @@ Pronto! Agora é só abrir pelo ícone, como qualquer outro aplicativo.
 
 Os produtos que **estão acabando aparecem primeiro** na lista, para você não esquecer de repor.
 
+Toque na **estrela ⭐** de um produto para marcá-lo como **favorito** — ele fica
+sempre no topo. Use também o seletor de **ordenação** (canto direito) para listar
+por nome, mais estoque, menos estoque ou mais vendidos.
+
 ---
 
 ## 🛒 Lista de compras (o que repor)
@@ -57,8 +61,9 @@ Quando algum produto está acabando, aparece no topo da tela um botão amarelo
 **"Repor X produtos"**. Toque nele para abrir a **lista de compras**, já com a
 **quantidade sugerida** de cada item.
 
-Toque em **"Compartilhar lista"** para mandar a lista pronta pelo **WhatsApp**
-(ou copiar e colar onde quiser). Assim você leva tudo anotado na hora de comprar:
+Toque em **"Enviar no WhatsApp"** para mandar a lista pronta (ou em
+**"Compartilhar"** para usar outro aplicativo). Assim você leva tudo anotado na
+hora de comprar:
 
 ```
 🛒 Lista de compras
@@ -180,10 +185,11 @@ Bom para imprimir e conferir no papel.
 
 ---
 
-## 👀 Letras maiores
+## 👀 Aparência (letras maiores e modo escuro)
 
-Em **Ajustes → Acessibilidade**, ligue a opção **"Fonte grande"** para deixar
-todo o sistema com letras maiores e mais fáceis de ler.
+Em **Ajustes → Aparência** você pode ligar a **"Fonte grande"** (letras maiores,
+mais fáceis de ler) e o **"Tema escuro"** (fundo escuro, melhor à noite e mais
+suave para os olhos).
 
 ---
 

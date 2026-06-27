@@ -103,6 +103,20 @@ export function atualizarProduto(
   return atualizado;
 }
 
+/** Marca/desmarca o produto como favorito. */
+export function alternarFavorito(id: string): void {
+  const produtos = read<Produto>(PRODUTOS_KEY);
+  const indice = produtos.findIndex((p) => p.id === id);
+  if (indice === -1) return;
+  const novos = [...produtos];
+  novos[indice] = {
+    ...novos[indice],
+    favorito: !novos[indice].favorito,
+    atualizadoEm: new Date().toISOString(),
+  };
+  write<Produto>(PRODUTOS_KEY, novos);
+}
+
 /** Remove o produto e todo o seu histórico de movimentações. */
 export function removerProduto(id: string): void {
   write<Produto>(

@@ -12,6 +12,9 @@ export function AplicarPreferencias() {
       if (localStorage.getItem("estoque:fonte-grande") === "1") {
         document.documentElement.classList.add("fonte-grande");
       }
+      if (localStorage.getItem("estoque:tema-escuro") === "1") {
+        document.documentElement.classList.add("dark");
+      }
     } catch {
       // ignora
     }

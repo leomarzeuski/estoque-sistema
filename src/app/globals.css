@@ -91,3 +91,39 @@ html.fonte-grande {
     @apply bg-background text-foreground;
   }
 }
+
+/*
+ * Tema escuro: as telas usam cores fixas (bg-white, text-gray-*, etc.).
+ * Em vez de editar todos os componentes, remapeamos essas cores aqui quando
+ * o modo escuro está ativo (classe `dark` no <html>).
+ */
+.dark .bg-white {
+  background-color: #111827 !important; /* gray-900: cartões, cabeçalho, menu */
+}
+.dark .bg-gray-50 {
+  background-color: #030712 !important; /* gray-950: fundo das telas */
+}
+.dark .text-gray-900 {
+  color: #f3f4f6 !important;
+}
+.dark .text-gray-800 {
+  color: #e5e7eb !important;
+}
+.dark .text-gray-700 {
+  color: #d1d5db !important;
+}
+.dark .text-gray-600 {
+  color: #cbd5e1 !important;
+}
+.dark .text-gray-500 {
+  color: #9ca3af !important;
+}
+.dark .text-gray-400 {
+  color: #6b7280 !important;
+}
+.dark .text-gray-300 {
+  color: #4b5563 !important;
+}
+.dark .border-gray-200 {
+  border-color: #1f2937 !important;
+}

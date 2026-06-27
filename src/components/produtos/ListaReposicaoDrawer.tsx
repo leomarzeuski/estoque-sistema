@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ShoppingCart, Share2 } from "lucide-react";
+import { ShoppingCart, Share2, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
 
 import {
@@ -47,6 +47,13 @@ export function ListaReposicaoDrawer({
     } catch {
       toast.error("Não foi possível compartilhar a lista.");
     }
+  };
+
+  const enviarWhatsApp = () => {
+    const url = `https://wa.me/?text=${encodeURIComponent(
+      textoListaCompras(itens)
+    )}`;
+    window.open(url, "_blank");
   };
 
   return (
@@ -107,11 +114,19 @@ export function ListaReposicaoDrawer({
 
           <DrawerFooter>
             <Button
+              onClick={enviarWhatsApp}
+              disabled={itens.length === 0}
+              className="h-12 gap-2 bg-green-600 text-base text-white hover:bg-green-700"
+            >
+              <MessageCircle className="size-5" /> Enviar no WhatsApp
+            </Button>
+            <Button
               onClick={compartilhar}
+              variant="outline"
               disabled={itens.length === 0}
               className="h-12 gap-2 text-base"
             >
-              <Share2 className="size-5" /> Compartilhar lista
+              <Share2 className="size-5" /> Compartilhar
             </Button>
             <DrawerClose asChild>
               <Button variant="outline" className="h-12 text-base">

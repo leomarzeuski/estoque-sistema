@@ -9,6 +9,7 @@ import {
   SlidersHorizontal,
   Trash2,
   Copy,
+  Star,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -31,7 +32,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useProduto } from "@/hooks/useProdutos";
 import { useHydrated } from "@/hooks/useHydrated";
-import { removerProduto } from "@/services/produtos";
+import { removerProduto, alternarFavorito } from "@/services/produtos";
 import { statusEstoque, STATUS_INFO, valorEmEstoque } from "@/lib/estoque";
 import { formatarMoeda, formatarNumero } from "@/lib/format";
 import { nomeUnidade, abreviacaoUnidade } from "@/data/catalogo";
@@ -95,13 +96,27 @@ export default function ProdutoDetalhePage() {
         titulo={produto.nome}
         voltarHref="/"
         acao={
-          <Link
-            href={`/produtos/${produto.id}/editar`}
-            aria-label="Editar produto"
-            className="flex h-10 w-10 items-center justify-center rounded-full text-gray-700 hover:bg-gray-100"
-          >
-            <Pencil size={20} />
-          </Link>
+          <div className="flex items-center">
+            <button
+              type="button"
+              onClick={() => alternarFavorito(produto.id)}
+              aria-label="Favorito"
+              className="flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:bg-gray-100"
+            >
+              <Star
+                className={`size-5 ${
+                  produto.favorito ? "fill-amber-400 text-amber-400" : ""
+                }`}
+              />
+            </button>
+            <Link
+              href={`/produtos/${produto.id}/editar`}
+              aria-label="Editar produto"
+              className="flex h-10 w-10 items-center justify-center rounded-full text-gray-700 hover:bg-gray-100"
+            >
+              <Pencil size={20} />
+            </Link>
+          </div>
         }
       />
 

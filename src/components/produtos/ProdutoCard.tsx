@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Plus, Minus } from "lucide-react";
+import { Plus, Minus, Star } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "./StatusBadge";
@@ -9,6 +9,7 @@ import { MovimentacaoDrawer } from "./MovimentacaoDrawer";
 import { statusEstoque, STATUS_INFO } from "@/lib/estoque";
 import { formatarNumero } from "@/lib/format";
 import { abreviacaoUnidade } from "@/data/catalogo";
+import { alternarFavorito } from "@/services/produtos";
 import type { Produto } from "@/types";
 
 export function ProdutoCard({ produto }: { produto: Produto }) {
@@ -16,7 +17,21 @@ export function ProdutoCard({ produto }: { produto: Produto }) {
   const un = abreviacaoUnidade(produto.unidade);
 
   return (
-    <div className="flex items-center gap-3 rounded-xl border bg-white p-3 shadow-sm">
+    <div className="flex items-center gap-2 rounded-xl border bg-white p-3 shadow-sm">
+      {/* Favoritar */}
+      <button
+        type="button"
+        onClick={() => alternarFavorito(produto.id)}
+        aria-label={produto.favorito ? "Desmarcar favorito" : "Marcar favorito"}
+        className="shrink-0 text-gray-300 hover:text-amber-400"
+      >
+        <Star
+          className={`size-5 ${
+            produto.favorito ? "fill-amber-400 text-amber-400" : ""
+          }`}
+        />
+      </button>
+
       {/* Toca aqui para abrir o detalhe */}
       <Link href={`/produtos/${produto.id}`} className="min-w-0 flex-1">
         <p className="truncate font-semibold text-gray-900">{produto.nome}</p>

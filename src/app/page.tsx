@@ -139,7 +139,12 @@ export default function EstoquePage() {
         (vendas[b.id] ?? 0) - (vendas[a.id] ?? 0) || porNome(a, b),
     };
 
-    return filtrados.sort(comparadores[ordem] ?? comparadores.atencao);
+    const comparar = comparadores[ordem] ?? comparadores.atencao;
+    return filtrados.sort(
+      (a, b) =>
+        Number(Boolean(b.favorito)) - Number(Boolean(a.favorito)) ||
+        comparar(a, b)
+    );
   }, [produtos, busca, filtro, ordem, vendas]);
 
   const semProdutos = hydrated && produtos.length === 0;

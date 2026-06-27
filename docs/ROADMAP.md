@@ -29,13 +29,16 @@ Marque com `[x]` o que for concluído.
 - [x] **Gráficos**: produtos mais vendidos e vendas por dia (acessível pelo Histórico).
 - [x] **Conveniências**: duplicar produto, editar a quantidade no cadastro
       (registra ajuste) e ordenar a lista (atenção, nome, estoque, mais vendidos).
+- [x] **Favoritos**: fixar produtos no topo da lista.
+- [x] **Enviar a lista de reposição no WhatsApp** (mensagem pronta).
+- [x] **Tema escuro**.
 
 ---
 
 ## 🔜 Curto prazo (alto valor, baixo esforço)
 
-- [ ] **Favoritos**: marcar produtos usados com frequência para aparecerem no topo.
-- [ ] **Atalho do fornecedor**: enviar a lista de reposição direto para o WhatsApp do box.
+- [ ] **Busca por voz** para achar produtos sem digitar.
+- [ ] **Conferência rápida** (modo de contagem do estoque, item por item).
 
 ---
 
@@ -57,7 +60,6 @@ Marque com `[x]` o que for concluído.
 - [ ] **Leitor de código de barras** pela câmera do celular para achar produtos.
 - [ ] **Mais gráficos**: valor de estoque ao longo do tempo, margem de lucro.
 - [ ] **Controle de fornecedores** (cadastro próprio, contatos).
-- [ ] **Tema escuro** (as variáveis de cor já existem em `globals.css`).
 
 ---
 

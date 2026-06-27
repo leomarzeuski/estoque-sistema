@@ -23,6 +23,7 @@ import { baixarRelatorioEstoque } from "@/services/relatorios";
 import { popularExemplos } from "@/data/exemplos";
 import { useProdutos } from "@/hooks/useProdutos";
 import { useFonteGrande } from "@/hooks/useFonteGrande";
+import { useTemaEscuro } from "@/hooks/useTemaEscuro";
 import { limparTudo } from "@/lib/db";
 
 function Secao({
@@ -47,6 +48,7 @@ export default function ConfiguracoesPage() {
   const inputArquivo = useRef<HTMLInputElement>(null);
   const produtos = useProdutos();
   const [fonteGrande, setFonteGrande] = useFonteGrande();
+  const [temaEscuro, setTemaEscuro] = useTemaEscuro();
 
   const aoEscolherArquivo = (e: React.ChangeEvent<HTMLInputElement>) => {
     const arquivo = e.target.files?.[0];
@@ -104,10 +106,10 @@ export default function ConfiguracoesPage() {
           </Button>
         </Secao>
 
-        {/* Acessibilidade */}
+        {/* Aparência */}
         <Secao
-          titulo="Acessibilidade"
-          descricao="Deixe as letras maiores para enxergar melhor."
+          titulo="Aparência"
+          descricao="Deixe as letras maiores ou use o modo escuro."
         >
           <div className="flex items-center justify-between">
             <span className="text-base text-gray-900">Fonte grande</span>
@@ -115,6 +117,14 @@ export default function ConfiguracoesPage() {
               checked={fonteGrande}
               onCheckedChange={setFonteGrande}
               aria-label="Fonte grande"
+            />
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-base text-gray-900">Tema escuro</span>
+            <Switch
+              checked={temaEscuro}
+              onCheckedChange={setTemaEscuro}
+              aria-label="Tema escuro"
             />
           </div>
         </Secao>

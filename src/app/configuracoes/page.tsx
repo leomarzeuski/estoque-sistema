@@ -17,10 +17,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Switch } from "@/components/ui/switch";
 import { baixarBackup, restaurarBackup } from "@/services/backup";
 import { baixarRelatorioEstoque } from "@/services/relatorios";
 import { popularExemplos } from "@/data/exemplos";
 import { useProdutos } from "@/hooks/useProdutos";
+import { useFonteGrande } from "@/hooks/useFonteGrande";
 import { limparTudo } from "@/lib/db";
 
 function Secao({
@@ -44,6 +46,7 @@ function Secao({
 export default function ConfiguracoesPage() {
   const inputArquivo = useRef<HTMLInputElement>(null);
   const produtos = useProdutos();
+  const [fonteGrande, setFonteGrande] = useFonteGrande();
 
   const aoEscolherArquivo = (e: React.ChangeEvent<HTMLInputElement>) => {
     const arquivo = e.target.files?.[0];
@@ -99,6 +102,21 @@ export default function ConfiguracoesPage() {
             <FileText className="size-5 text-blue-700" />
             Baixar relatório (PDF)
           </Button>
+        </Secao>
+
+        {/* Acessibilidade */}
+        <Secao
+          titulo="Acessibilidade"
+          descricao="Deixe as letras maiores para enxergar melhor."
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-base text-gray-900">Fonte grande</span>
+            <Switch
+              checked={fonteGrande}
+              onCheckedChange={setFonteGrande}
+              aria-label="Fonte grande"
+            />
+          </div>
         </Secao>
 
         {/* Backup */}

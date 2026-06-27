@@ -22,6 +22,7 @@ import { ListaReposicaoDrawer } from "@/components/produtos/ListaReposicaoDrawer
 import { useProdutos } from "@/hooks/useProdutos";
 import { useMovimentacoes } from "@/hooks/useMovimentacoes";
 import { useHydrated } from "@/hooks/useHydrated";
+import { useAuth } from "@/context/AuthContext";
 import { calcularResumo, statusEstoque } from "@/lib/estoque";
 import { formatarMoeda, formatarNumero } from "@/lib/format";
 import { popularExemplos } from "@/data/exemplos";
@@ -72,6 +73,7 @@ export default function EstoquePage() {
   const produtos = useProdutos();
   const movimentacoes = useMovimentacoes();
   const hydrated = useHydrated();
+  const { user } = useAuth();
   const [busca, setBusca] = useState("");
   const [filtro, setFiltro] = useState("todos");
 
@@ -127,7 +129,9 @@ export default function EstoquePage() {
       <header className="sticky top-0 z-10 flex items-center justify-between border-b bg-white px-4 py-3">
         <div className="min-w-0">
           <h1 className="truncate text-xl font-bold text-gray-900">
-            {hydrated ? `${saudacao()} 👋` : "Meu Estoque"}
+            {hydrated
+              ? `${saudacao()}${user?.nome ? `, ${user.nome}` : ""} 👋`
+              : "Meu Estoque"}
           </h1>
           <p className="truncate text-xs text-gray-500">
             {hydrated ? dataDeHoje() : "Carregando..."}

@@ -25,10 +25,11 @@ Pronto! Agora é só abrir pelo ícone, como qualquer outro aplicativo.
 
 ## 🔑 Entrando no sistema
 
-1. Digite seu **e-mail** e uma **senha** (mínimo 6 letras/números).
-2. Toque em **Confirmar**.
+1. (Opcional) Digite **seu nome** — ele aparece na saudação.
+2. Toque em **Entrar**.
 
-> Você fica conectado por vários dias, então não precisa entrar toda hora.
+> Não tem senha: seus dados ficam só neste aparelho. Você continua conectado por
+> vários dias, sem precisar entrar toda hora.
 
 ---
 
@@ -171,6 +172,13 @@ filtrar por **Hoje, 7 dias, 30 dias ou Tudo** e ver o total vendido no período.
 Em **Ajustes → Relatório do estoque**, toque em **"Baixar relatório (PDF)"** para
 gerar uma folha com todos os produtos, a situação de cada um e o valor total.
 Bom para imprimir e conferir no papel.
+
+---
+
+## 👀 Letras maiores
+
+Em **Ajustes → Acessibilidade**, ligue a opção **"Fonte grande"** para deixar
+todo o sistema com letras maiores e mais fáceis de ler.
 
 ---
 

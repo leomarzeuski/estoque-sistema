@@ -32,6 +32,8 @@ tecnologia.
   **faturamento** do dia.
 - **Relatório do estoque em PDF** para imprimir ou guardar.
 - **Backup**: exportar e restaurar todos os dados num arquivo (tela **Ajustes**).
+- **Acessibilidade**: opção de **fonte grande** para enxergar melhor.
+- **Login com um toque** (nome opcional, sem senha).
 - **Funciona offline** e pode ser **instalado como aplicativo** no celular (PWA).
 
 📖 Guia passo a passo para o usuário final: [`docs/GUIA-DE-USO.md`](docs/GUIA-DE-USO.md)
@@ -61,9 +63,9 @@ npm run start   # roda a versão de produção
 npm run lint    # verifica padrões de código
 ```
 
-> **Login:** o sistema tem uma tela de login simples. Como os dados ficam no
-> próprio aparelho, qualquer e-mail válido e uma senha de 6+ caracteres entram.
-> Veja [a seção de autenticação](docs/ARQUITETURA.md#autenticação) para detalhes.
+> **Login:** é com um toque. Basta abrir e tocar em **Entrar** (o nome é
+> opcional, só para personalizar a saudação). Não há senha, pois os dados ficam
+> no próprio aparelho. Veja [a seção de autenticação](docs/ARQUITETURA.md#autenticação).
 
 ---
 

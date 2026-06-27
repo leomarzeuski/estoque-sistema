@@ -165,12 +165,13 @@ celular, mais familiar para o usuário).
 
 Implementação **mínima e local** (`context/AuthContext.tsx` + `middleware.ts`):
 
-- O login guarda um token em cookie (`js-cookie`, 7 dias) e os dados do usuário
-  no `localStorage`.
-- O `middleware` protege `/` e `/produtos/*`, redirecionando para `/login` quem
-  não tiver o cookie.
-- **Não há backend ainda**: o token é fixo (`"tempToken"`). Serve apenas para
-  evitar que o app abra "pelado". Ver o [roadmap](ROADMAP.md) para auth real.
+- O login é com **um toque** (nome opcional, sem senha). Guarda um token fixo em
+  cookie (`js-cookie`, 7 dias) e o nome no `localStorage`.
+- O `middleware` protege as telas internas (`/`, `/produtos/*`, `/venda`,
+  `/historico`, `/configuracoes`), redirecionando para `/login` quem não tiver o
+  cookie.
+- **Não há backend ainda**: o token é fixo (`"tempToken"`), só para o app não
+  abrir "pelado". Ver o [roadmap](ROADMAP.md) para autenticação real.
 
 ---
 

@@ -13,7 +13,8 @@ import { COOKIES } from "@/constants/cookies";
 import { STORAGE } from "@/constants/storage";
 
 interface User {
-  email: string;
+  /** Nome do usuário (opcional), usado só para personalizar a saudação. */
+  nome?: string;
 }
 
 interface AuthContextType {

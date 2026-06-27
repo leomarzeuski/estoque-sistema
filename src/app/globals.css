@@ -6,6 +6,11 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Acessibilidade: aumenta a fonte do app inteiro (escala os tamanhos em rem). */
+html.fonte-grande {
+  font-size: 18.5px;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

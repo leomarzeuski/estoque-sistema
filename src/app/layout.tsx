@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import { AuthProvider } from "@/context/AuthContext";
 import ResponsiveLayout from "@/components/responsiveLayout";
+import { AplicarPreferencias } from "@/components/Preferencias";
 import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
@@ -48,6 +49,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <AplicarPreferencias />
         <AuthProvider>
           <ResponsiveLayout>{children}</ResponsiveLayout>
         </AuthProvider>

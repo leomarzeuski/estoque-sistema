@@ -23,8 +23,9 @@ import {
   registrarEntrada,
   registrarSaida,
   ajustarEstoque,
+  desfazerMovimentacao,
 } from "@/services/produtos";
-import type { Produto, TipoMovimentacao } from "@/types";
+import type { Produto, TipoMovimentacao, Movimentacao } from "@/types";
 
 const CONFIG: Record<
   TipoMovimentacao,
@@ -93,15 +94,30 @@ export function MovimentacaoDrawer({
       return;
     }
 
+    let movimentacao: Movimentacao | undefined;
+    let mensagem = "";
     if (tipo === "entrada") {
-      registrarEntrada(produto.id, numero, motivo);
-      toast.success("Entrada registrada!");
+      movimentacao = registrarEntrada(produto.id, numero, motivo);
+      mensagem = "Entrada registrada!";
     } else if (tipo === "saida") {
-      registrarSaida(produto.id, numero, motivo);
-      toast.success("Saída registrada!");
+      movimentacao = registrarSaida(produto.id, numero, motivo);
+      mensagem = "Saída registrada!";
     } else {
-      ajustarEstoque(produto.id, numero, motivo);
-      toast.success("Estoque ajustado!");
+      movimentacao = ajustarEstoque(produto.id, numero, motivo);
+      mensagem = "Estoque ajustado!";
+    }
+
+    if (movimentacao) {
+      const registro = movimentacao;
+      toast.success(mensagem, {
+        action: {
+          label: "Desfazer",
+          onClick: () => {
+            desfazerMovimentacao(registro);
+            toast.info("Movimentação desfeita.");
+          },
+        },
+      });
     }
     setOpen(false);
   };

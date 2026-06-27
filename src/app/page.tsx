@@ -9,19 +9,40 @@ import {
   Search,
   Plus,
   PackagePlus,
+  ShoppingCart,
+  ChevronRight,
 } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { MensagemEstado } from "@/components/MensagemEstado";
+import { InstallBanner } from "@/components/InstallBanner";
 import { ProdutoCard } from "@/components/produtos/ProdutoCard";
+import { ListaReposicaoDrawer } from "@/components/produtos/ListaReposicaoDrawer";
 import { useProdutos } from "@/hooks/useProdutos";
+import { useMovimentacoes } from "@/hooks/useMovimentacoes";
 import { useHydrated } from "@/hooks/useHydrated";
 import { calcularResumo, statusEstoque } from "@/lib/estoque";
 import { formatarMoeda, formatarNumero } from "@/lib/format";
 import { popularExemplos } from "@/data/exemplos";
 
 const PESO_STATUS = { sem: 0, baixo: 1, ok: 2 } as const;
+
+function saudacao(): string {
+  const hora = new Date().getHours();
+  if (hora < 12) return "Bom dia";
+  if (hora < 18) return "Boa tarde";
+  return "Boa noite";
+}
+
+function dataDeHoje(): string {
+  const texto = new Date().toLocaleDateString("pt-BR", {
+    weekday: "long",
+    day: "2-digit",
+    month: "long",
+  });
+  return texto.charAt(0).toUpperCase() + texto.slice(1);
+}
 
 function CardResumo({
   icone,
@@ -49,11 +70,23 @@ function CardResumo({
 
 export default function EstoquePage() {
   const produtos = useProdutos();
+  const movimentacoes = useMovimentacoes();
   const hydrated = useHydrated();
   const [busca, setBusca] = useState("");
   const [filtro, setFiltro] = useState("todos");
 
   const resumo = useMemo(() => calcularResumo(produtos), [produtos]);
+
+  const atividadeHoje = useMemo(() => {
+    const dia = new Date().toDateString();
+    const doDia = movimentacoes.filter(
+      (m) => new Date(m.data).toDateString() === dia
+    );
+    return {
+      entradas: doDia.filter((m) => m.tipo === "entrada").length,
+      saidas: doDia.filter((m) => m.tipo === "saida").length,
+    };
+  }, [movimentacoes]);
 
   const categorias = useMemo(
     () => Array.from(new Set(produtos.map((p) => p.categoria))).sort(),
@@ -81,18 +114,18 @@ export default function EstoquePage() {
   }, [produtos, busca, filtro]);
 
   const semProdutos = hydrated && produtos.length === 0;
+  const temAtividade =
+    atividadeHoje.entradas + atividadeHoje.saidas > 0;
 
   return (
     <div className="min-h-screen bg-gray-50 pb-24 md:pb-8">
       <header className="sticky top-0 z-10 flex items-center justify-between border-b bg-white px-4 py-3">
-        <div>
-          <h1 className="text-xl font-bold text-gray-900">Meu Estoque</h1>
-          <p className="text-xs text-gray-500">
-            {hydrated
-              ? `${formatarNumero(resumo.totalProdutos)} ${
-                  resumo.totalProdutos === 1 ? "produto" : "produtos"
-                }`
-              : "Carregando..."}
+        <div className="min-w-0">
+          <h1 className="truncate text-xl font-bold text-gray-900">
+            {hydrated ? `${saudacao()} 👋` : "Meu Estoque"}
+          </h1>
+          <p className="truncate text-xs text-gray-500">
+            {hydrated ? dataDeHoje() : "Carregando..."}
           </p>
         </div>
         <Link href="/produtos/novo" className="hidden md:block">
@@ -103,6 +136,29 @@ export default function EstoquePage() {
       </header>
 
       <div className="mx-auto max-w-3xl space-y-4 p-4">
+        <InstallBanner />
+
+        {/* Lista de compras / reposição */}
+        {resumo.precisamAtencao > 0 && (
+          <ListaReposicaoDrawer produtos={produtos}>
+            <button className="flex w-full items-center gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4 text-left transition-colors hover:bg-amber-100">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-amber-100">
+                <ShoppingCart className="size-6 text-amber-700" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="font-semibold text-amber-900">
+                  Repor {formatarNumero(resumo.precisamAtencao)}{" "}
+                  {resumo.precisamAtencao === 1 ? "produto" : "produtos"}
+                </p>
+                <p className="text-xs text-amber-700">
+                  Ver a lista de compras e compartilhar
+                </p>
+              </div>
+              <ChevronRight className="size-5 shrink-0 text-amber-700" />
+            </button>
+          </ListaReposicaoDrawer>
+        )}
+
         {/* Resumo */}
         <div className="grid grid-cols-3 gap-2">
           <CardResumo
@@ -124,6 +180,14 @@ export default function EstoquePage() {
             rotulo="Valor em estoque"
           />
         </div>
+
+        {/* Resumo do dia */}
+        {hydrated && temAtividade && (
+          <p className="text-center text-xs text-gray-500">
+            Hoje: {formatarNumero(atividadeHoje.entradas)} entrada(s) ·{" "}
+            {formatarNumero(atividadeHoje.saidas)} saída(s)
+          </p>
+        )}
 
         {/* Busca */}
         <div className="relative">

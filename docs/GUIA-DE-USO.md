@@ -50,6 +50,24 @@ Os produtos que **estão acabando aparecem primeiro** na lista, para você não 
 
 ---
 
+## 🛒 Lista de compras (o que repor)
+
+Quando algum produto está acabando, aparece no topo da tela um botão amarelo
+**"Repor X produtos"**. Toque nele para abrir a **lista de compras**, já com a
+**quantidade sugerida** de cada item.
+
+Toque em **"Compartilhar lista"** para mandar a lista pronta pelo **WhatsApp**
+(ou copiar e colar onde quiser). Assim você leva tudo anotado na hora de comprar:
+
+```
+🛒 Lista de compras
+
+• Cebola: 2 sc
+• Tomate: 8 cx
+```
+
+---
+
 ## ➕ Cadastrando um produto novo
 
 1. Toque no botão **+** (no canto inferior direito no celular, ou **"Novo Produto"** no computador).
@@ -76,6 +94,9 @@ Você comprou mais caixas de um produto? Registre a entrada:
 
 Digite **quanto chegou**, use os botões **−** e **+** para ajustar, e confirme.
 O estoque aumenta automaticamente.
+
+> **Tocou sem querer?** Aparece um aviso com o botão **"Desfazer"** logo após
+> cada entrada, saída ou ajuste — é só tocar para voltar atrás.
 
 ---
 

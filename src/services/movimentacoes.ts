@@ -37,6 +37,14 @@ export function appendMovimentacao(
   return registro;
 }
 
+/** Remove uma única movimentação do histórico (usado no "desfazer"). */
+export function removerMovimentacao(id: string): void {
+  write<Movimentacao>(
+    MOVIMENTACOES_KEY,
+    read<Movimentacao>(MOVIMENTACOES_KEY).filter((m) => m.id !== id)
+  );
+}
+
 /** Remove do histórico todas as movimentações de um produto. */
 export function removerMovimentacoesDoProduto(produtoId: string): void {
   write<Movimentacao>(

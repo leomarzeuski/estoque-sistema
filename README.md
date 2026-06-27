@@ -23,6 +23,9 @@ tecnologia.
 - **Alertas visuais** de "estoque baixo" e "sem estoque".
 - **Busca e filtros** por nome e categoria.
 - **Histórico** de todas as movimentações de cada produto.
+- **Lista de compras** automática do que está acabando, com quantidade sugerida e
+  **compartilhamento no WhatsApp**.
+- **Desfazer** entradas/saídas com um toque (rede de segurança contra erros).
 - **Backup**: exportar e restaurar todos os dados num arquivo (tela **Ajustes**).
 - **Funciona offline** e pode ser **instalado como aplicativo** no celular (PWA).
 

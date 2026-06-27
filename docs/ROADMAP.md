@@ -15,6 +15,10 @@ Marque com `[x]` o que for concluído.
 - [x] Armazenamento offline (localStorage).
 - [x] **Backup**: exportar e restaurar todos os dados via arquivo `.json`.
 - [x] **Tela de Ajustes**: backup, carregar exemplos e apagar tudo.
+- [x] **Lista de compras**: itens para repor com quantidade sugerida e
+      compartilhamento (WhatsApp / copiar).
+- [x] **Desfazer** entradas, saídas e ajustes pelo aviso (toast).
+- [x] **Convite para instalar** o app na tela inicial.
 
 ---
 

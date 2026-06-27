@@ -6,10 +6,11 @@
  */
 
 import { read, write, uid } from "@/lib/db";
-import type { Produto, TipoMovimentacao } from "@/types";
+import type { Produto, TipoMovimentacao, Movimentacao } from "@/types";
 
 import {
   appendMovimentacao,
+  removerMovimentacao,
   removerMovimentacoesDoProduto,
 } from "./movimentacoes";
 
@@ -122,7 +123,7 @@ function aplicarMovimentacao(
   delta: number,
   quantidadeRegistro: number,
   motivo?: string
-): Produto | undefined {
+): Movimentacao | undefined {
   const produtos = read<Produto>(PRODUTOS_KEY);
   const indice = produtos.findIndex((p) => p.id === id);
   if (indice === -1) return undefined;
@@ -140,7 +141,7 @@ function aplicarMovimentacao(
   novos[indice] = atualizado;
   write<Produto>(PRODUTOS_KEY, novos);
 
-  appendMovimentacao({
+  return appendMovimentacao({
     produtoId: id,
     produtoNome: anterior.nome,
     tipo,
@@ -149,8 +150,6 @@ function aplicarMovimentacao(
     estoqueDepois,
     motivo: motivo?.trim() || undefined,
   });
-
-  return atualizado;
 }
 
 /** Registra a chegada de mercadoria (aumenta o estoque). */
@@ -158,7 +157,7 @@ export function registrarEntrada(
   id: string,
   quantidade: number,
   motivo?: string
-): Produto | undefined {
+): Movimentacao | undefined {
   const qtd = Math.abs(quantidade);
   return aplicarMovimentacao(id, "entrada", qtd, qtd, motivo);
 }
@@ -168,7 +167,7 @@ export function registrarSaida(
   id: string,
   quantidade: number,
   motivo?: string
-): Produto | undefined {
+): Movimentacao | undefined {
   const qtd = Math.abs(quantidade);
   return aplicarMovimentacao(id, "saida", -qtd, qtd, motivo);
 }
@@ -178,7 +177,7 @@ export function ajustarEstoque(
   id: string,
   novaQuantidade: number,
   motivo?: string
-): Produto | undefined {
+): Movimentacao | undefined {
   const produto = obterProduto(id);
   if (!produto) return undefined;
   const alvo = Math.max(0, novaQuantidade);
@@ -190,4 +189,25 @@ export function ajustarEstoque(
     Math.abs(delta),
     motivo || "Ajuste por contagem"
   );
+}
+
+/**
+ * Desfaz uma movimentação: reverte o efeito dela no estoque e apaga o
+ * registro do histórico. Pensado para o "Desfazer" logo após a ação.
+ */
+export function desfazerMovimentacao(mov: Movimentacao): void {
+  const produtos = read<Produto>(PRODUTOS_KEY);
+  const indice = produtos.findIndex((p) => p.id === mov.produtoId);
+  if (indice !== -1) {
+    const atual = produtos[indice];
+    const efeito = mov.estoqueDepois - mov.estoqueAntes;
+    const novos = [...produtos];
+    novos[indice] = {
+      ...atual,
+      quantidade: Math.max(0, atual.quantidade - efeito),
+      atualizadoEm: new Date().toISOString(),
+    };
+    write<Produto>(PRODUTOS_KEY, novos);
+  }
+  removerMovimentacao(mov.id);
 }

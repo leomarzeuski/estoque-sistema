@@ -10,12 +10,14 @@ import {
 } from "@/components/ui/sidebar";
 import { NavItems } from "@/data/menuItems";
 
+import { LogoutButton } from "./LogoutButton";
+
 export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Meu Estoque :)</SidebarGroupLabel>
+          <SidebarGroupLabel>Meu Estoque</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {NavItems.map((item) => (
@@ -28,6 +30,7 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              <LogoutButton />
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

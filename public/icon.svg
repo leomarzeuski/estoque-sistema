@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Meu Estoque">
+  <rect width="512" height="512" rx="96" fill="#16a34a"/>
+  <g fill="none" stroke="#ffffff" stroke-width="24" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M256 142 L374 200 L374 322 L256 380 L138 322 L138 200 Z"/>
+    <path d="M138 200 L256 258 L374 200"/>
+    <path d="M256 258 L256 380"/>
+  </g>
+</svg>

@@ -1,0 +1,141 @@
+# 📖 Guia de Uso — Meu Estoque
+
+Este guia explica, em passos simples, como usar o sistema no dia a dia.
+Não precisa entender de computador: é só seguir as telas.
+
+---
+
+## 📲 Instalando no celular (opcional, mas recomendado)
+
+Dá para usar o sistema como se fosse um aplicativo, com ícone na tela inicial:
+
+**No Android (Chrome):**
+1. Abra o site no Chrome.
+2. Toque nos três pontinhos (⋮) no canto superior.
+3. Toque em **"Instalar aplicativo"** ou **"Adicionar à tela inicial"**.
+
+**No iPhone (Safari):**
+1. Abra o site no Safari.
+2. Toque no botão de **compartilhar** (quadrado com uma seta para cima).
+3. Toque em **"Adicionar à Tela de Início"**.
+
+Pronto! Agora é só abrir pelo ícone, como qualquer outro aplicativo.
+
+---
+
+## 🔑 Entrando no sistema
+
+1. Digite seu **e-mail** e uma **senha** (mínimo 6 letras/números).
+2. Toque em **Confirmar**.
+
+> Você fica conectado por vários dias, então não precisa entrar toda hora.
+
+---
+
+## 🏠 A tela principal (Meu Estoque)
+
+É a primeira tela. Nela você vê:
+
+- **Três quadradinhos no topo:**
+  - **Produtos** → quantos produtos diferentes você tem.
+  - **Precisam repor** → quantos estão acabando ou já acabaram. ⚠️
+  - **Valor em estoque** → quanto dinheiro está parado em mercadoria.
+- **Uma barra de busca** → para achar um produto pelo nome.
+- **Botões de categoria** → para ver só frutas, só verduras, etc.
+- **A lista de produtos**, mostrando a quantidade de cada um.
+
+🟢 Verde = tem bastante · 🟡 Amarelo = está acabando · 🔴 Vermelho = acabou.
+
+Os produtos que **estão acabando aparecem primeiro** na lista, para você não esquecer de repor.
+
+---
+
+## ➕ Cadastrando um produto novo
+
+1. Toque no botão **+** (no canto inferior direito no celular, ou **"Novo Produto"** no computador).
+2. Preencha:
+   - **Nome** (ex: Tomate)
+   - **Categoria** (Fruta, Verdura, Legume...)
+   - **Unidade** — como você conta (Caixa, Saco, Quilo...)
+   - **Preço de custo** — quanto você pagou
+   - **Preço de venda** — por quanto você vende
+   - **Quantidade inicial** — quanto você tem agora
+   - **Estoque mínimo** — quando avisar que está acabando
+3. Toque em **Cadastrar**.
+
+> Só o **nome** é obrigatório. O resto você pode deixar em zero e ajustar depois.
+
+---
+
+## 📥 Quando chega mercadoria (Entrada)
+
+Você comprou mais caixas de um produto? Registre a entrada:
+
+- **Pela lista:** toque no botão **➕ verde** ao lado do produto.
+- **Ou** toque no produto e depois em **Entrada**.
+
+Digite **quanto chegou**, use os botões **−** e **+** para ajustar, e confirme.
+O estoque aumenta automaticamente.
+
+---
+
+## 📤 Quando sai mercadoria (Saída)
+
+Vendeu ou tirou mercadoria? Registre a saída:
+
+- **Pela lista:** toque no botão **➖ vermelho** ao lado do produto.
+- **Ou** toque no produto e depois em **Saída**.
+
+Digite **quanto saiu** e confirme. O estoque diminui automaticamente.
+
+> O sistema avisa se você tentar tirar mais do que tem.
+
+---
+
+## 🔧 Corrigindo o estoque (Ajustar)
+
+Fez a contagem e o número no sistema está diferente do real? Use o **Ajustar**:
+
+1. Toque no produto.
+2. Toque em **Ajustar**.
+3. Digite a **quantidade certa** que existe de verdade.
+4. Confirme.
+
+O sistema corrige e guarda no histórico que houve um ajuste.
+
+---
+
+## 📜 Vendo o histórico
+
+Toque em qualquer produto para ver:
+
+- A quantidade atual em destaque.
+- Preços e o **lucro por unidade**.
+- O **valor parado** naquele produto.
+- Todas as **entradas, saídas e ajustes** com data e hora.
+
+---
+
+## ✏️ Editando ou ❌ excluindo um produto
+
+- Para **editar** (mudar nome, preço...): toque no produto e no **lápis** ✏️ no topo.
+- Para **excluir**: toque no produto e role até **"Excluir produto"** (em vermelho).
+  O sistema pede confirmação antes de apagar.
+
+---
+
+## ❓ Perguntas comuns
+
+**Preciso de internet?**
+Não. Depois de aberto, funciona sem internet.
+
+**Meus dados somem se eu fechar?**
+Não. Eles ficam salvos no aparelho.
+
+**Posso usar no celular e no computador ao mesmo tempo?**
+Por enquanto, cada aparelho tem o seu próprio estoque (eles não conversam entre
+si). A sincronização está nos planos futuros.
+
+**Como começar a testar rápido?**
+Na tela inicial vazia, toque em **"carregar produtos de exemplo"** para ver como
+funciona. Depois é só excluir os exemplos.

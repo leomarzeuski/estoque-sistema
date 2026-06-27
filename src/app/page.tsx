@@ -1,209 +1,239 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
+import Link from "next/link";
+import {
+  Package,
+  AlertTriangle,
+  Wallet,
+  Search,
+  Plus,
+  PackagePlus,
+} from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
+import { MensagemEstado } from "@/components/MensagemEstado";
+import { ProdutoCard } from "@/components/produtos/ProdutoCard";
+import { useProdutos } from "@/hooks/useProdutos";
+import { useHydrated } from "@/hooks/useHydrated";
+import { calcularResumo, statusEstoque } from "@/lib/estoque";
+import { formatarMoeda, formatarNumero } from "@/lib/format";
+import { popularExemplos } from "@/data/exemplos";
 
-const PEDIDOS_FAKE = [
-  {
-    id: 101,
-    data: "2025-01-04",
-    pessoa: "João Silva",
-    status: "Pendente",
-    valor: 250.0,
-  },
-  {
-    id: 102,
-    data: "2025-01-03",
-    pessoa: "Maria Souza",
-    status: "Concluído",
-    valor: 500.0,
-  },
-  {
-    id: 103,
-    data: "2025-01-02",
-    pessoa: "Carlos Santos",
-    status: "Cancelado",
-    valor: 100.0,
-  },
-];
+const PESO_STATUS = { sem: 0, baixo: 1, ok: 2 } as const;
 
-export default function OrdersPage() {
-  const router = useRouter();
-  const [filterPessoa, setFilterPessoa] = useState("");
-  const [filterData, setFilterData] = useState("");
-  const [filterStatus, setFilterStatus] = useState("all");
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 5;
+function CardResumo({
+  icone,
+  valor,
+  rotulo,
+  cor,
+}: {
+  icone: React.ReactNode;
+  valor: string;
+  rotulo: string;
+  cor: string;
+}) {
+  return (
+    <div className="rounded-xl border bg-white p-3 text-center shadow-sm">
+      <div
+        className={`mx-auto mb-1 flex h-8 w-8 items-center justify-center rounded-full ${cor}`}
+      >
+        {icone}
+      </div>
+      <p className="text-lg font-bold leading-tight text-gray-900">{valor}</p>
+      <p className="text-[11px] leading-tight text-gray-500">{rotulo}</p>
+    </div>
+  );
+}
 
-  const filteredOrders = PEDIDOS_FAKE.filter((pedido) => {
-    const matchPessoa = filterPessoa
-      ? pedido.pessoa.toLowerCase().includes(filterPessoa.toLowerCase())
-      : true;
-    const matchData = filterData ? pedido.data === filterData : true;
-    const matchStatus =
-      filterStatus === "all" ? true : pedido.status === filterStatus;
-    return matchPessoa && matchData && matchStatus;
-  });
+export default function EstoquePage() {
+  const produtos = useProdutos();
+  const hydrated = useHydrated();
+  const [busca, setBusca] = useState("");
+  const [filtro, setFiltro] = useState("todos");
 
-  const totalPages = Math.ceil(filteredOrders.length / pageSize);
-  const safePage = currentPage > totalPages ? totalPages : currentPage;
-  const startIndex = (safePage - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
-  const pedidosPagina = filteredOrders.slice(startIndex, endIndex);
+  const resumo = useMemo(() => calcularResumo(produtos), [produtos]);
 
-  const goToPage = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
-  };
+  const categorias = useMemo(
+    () => Array.from(new Set(produtos.map((p) => p.categoria))).sort(),
+    [produtos]
+  );
 
-  const limparFilters = () => {
-    setFilterPessoa("");
-    setFilterData("");
-    setFilterStatus("all");
-    setCurrentPage(1);
-  };
+  const visiveis = useMemo(() => {
+    const termo = busca.trim().toLowerCase();
+    return produtos
+      .filter((p) => {
+        const achou = !termo || p.nome.toLowerCase().includes(termo);
+        const passou =
+          filtro === "todos"
+            ? true
+            : filtro === "atencao"
+              ? statusEstoque(p) !== "ok"
+              : p.categoria === filtro;
+        return achou && passou;
+      })
+      .sort(
+        (a, b) =>
+          PESO_STATUS[statusEstoque(a)] - PESO_STATUS[statusEstoque(b)] ||
+          a.nome.localeCompare(b.nome, "pt-BR")
+      );
+  }, [produtos, busca, filtro]);
 
-  const filtersAtivos = filterPessoa || filterData || filterStatus !== "all";
+  const semProdutos = hydrated && produtos.length === 0;
 
   return (
-    <main className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Listagem de Pedidos</h1>
-
-      {/* Filters */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    <div className="min-h-screen bg-gray-50 pb-24 md:pb-8">
+      <header className="sticky top-0 z-10 flex items-center justify-between border-b bg-white px-4 py-3">
         <div>
-          <label className="block text-sm font-medium mb-1">Pessoa</label>
-          <Input
-            placeholder="Ex: João"
-            type="text"
-            value={filterPessoa}
-            onChange={(e) => {
-              setFilterPessoa(e.target.value);
-              setCurrentPage(1);
-            }}
-          />
+          <h1 className="text-xl font-bold text-gray-900">Meu Estoque</h1>
+          <p className="text-xs text-gray-500">
+            {hydrated
+              ? `${formatarNumero(resumo.totalProdutos)} ${
+                  resumo.totalProdutos === 1 ? "produto" : "produtos"
+                }`
+              : "Carregando..."}
+          </p>
         </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-1">Data</label>
-          <Input
-            type="date"
-            value={filterData}
-            onChange={(e) => {
-              setFilterData(e.target.value);
-              setCurrentPage(1);
-            }}
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-1">Status</label>
-          <Select
-            onValueChange={(val) => {
-              setFilterStatus(val);
-              setCurrentPage(1);
-            }}
-            value={filterStatus}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Selecione um status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Todos</SelectItem>
-              <SelectItem value="Pendente">Pendente</SelectItem>
-              <SelectItem value="Concluído">Concluído</SelectItem>
-              <SelectItem value="Cancelado">Cancelado</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
-
-      {/* Botão de Adicionar Novo Pedido */}
-      <div className="flex justify-between items-center mb-6">
-        <Button
-          variant="secondary"
-          onClick={() => router.push("/pedidos/novo")}
-        >
-          + Novo Pedido
-        </Button>
-
-        {filtersAtivos && (
-          <Button variant="destructive" onClick={limparFilters}>
-            Limpar Filters
+        <Link href="/produtos/novo" className="hidden md:block">
+          <Button className="h-11 gap-2">
+            <Plus className="size-5" /> Novo Produto
           </Button>
+        </Link>
+      </header>
+
+      <div className="mx-auto max-w-3xl space-y-4 p-4">
+        {/* Resumo */}
+        <div className="grid grid-cols-3 gap-2">
+          <CardResumo
+            icone={<Package className="size-4 text-blue-700" />}
+            cor="bg-blue-100"
+            valor={formatarNumero(resumo.totalProdutos)}
+            rotulo="Produtos"
+          />
+          <CardResumo
+            icone={<AlertTriangle className="size-4 text-amber-700" />}
+            cor="bg-amber-100"
+            valor={formatarNumero(resumo.precisamAtencao)}
+            rotulo="Precisam repor"
+          />
+          <CardResumo
+            icone={<Wallet className="size-4 text-green-700" />}
+            cor="bg-green-100"
+            valor={formatarMoeda(resumo.valorTotal)}
+            rotulo="Valor em estoque"
+          />
+        </div>
+
+        {/* Busca */}
+        <div className="relative">
+          <Search className="pointer-events-none absolute left-3 top-1/2 z-10 size-5 -translate-y-1/2 text-gray-400" />
+          <Input
+            value={busca}
+            onChange={(e) => setBusca(e.target.value)}
+            placeholder="Buscar produto..."
+            className="h-12 pl-10"
+          />
+        </div>
+
+        {/* Filtros por categoria */}
+        {produtos.length > 0 && (
+          <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
+            <Chip
+              ativo={filtro === "todos"}
+              onClick={() => setFiltro("todos")}
+              texto="Todos"
+            />
+            {resumo.precisamAtencao > 0 && (
+              <Chip
+                ativo={filtro === "atencao"}
+                onClick={() => setFiltro("atencao")}
+                texto={`⚠ Repor (${resumo.precisamAtencao})`}
+                destaque
+              />
+            )}
+            {categorias.map((c) => (
+              <Chip
+                key={c}
+                ativo={filtro === c}
+                onClick={() => setFiltro(c)}
+                texto={c}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Lista */}
+        {!hydrated ? (
+          <p className="py-10 text-center text-gray-400">Carregando...</p>
+        ) : semProdutos ? (
+          <MensagemEstado
+            icone={<Package className="size-12" />}
+            titulo="Seu estoque está vazio"
+            descricao="Cadastre seu primeiro produto para começar a controlar as entradas e saídas."
+            acao={
+              <div className="flex flex-col items-center gap-2">
+                <Link href="/produtos/novo">
+                  <Button className="h-12 gap-2 px-6 text-base">
+                    <PackagePlus className="size-5" /> Cadastrar produto
+                  </Button>
+                </Link>
+                <button
+                  onClick={popularExemplos}
+                  className="text-sm text-gray-500 underline underline-offset-2 hover:text-gray-700"
+                >
+                  ou carregar produtos de exemplo
+                </button>
+              </div>
+            }
+          />
+        ) : visiveis.length === 0 ? (
+          <MensagemEstado
+            titulo="Nenhum produto encontrado"
+            descricao="Tente outro nome ou filtro."
+          />
+        ) : (
+          <div className="space-y-2">
+            {visiveis.map((produto) => (
+              <ProdutoCard key={produto.id} produto={produto} />
+            ))}
+          </div>
         )}
       </div>
 
-      {/* Tabela de pedidos */}
-      <div className="overflow-x-auto">
-        <table className="min-w-full border-collapse text-sm ">
-          <thead>
-            <tr className="bg-blue-500 border-b">
-              <th className="text-left px-4 py-2">ID</th>
-              <th className="text-left px-4 py-2">Data</th>
-              <th className="text-left px-4 py-2">Pessoa</th>
-              <th className="text-left px-4 py-2">Status</th>
-              <th className="text-left px-4 py-2">Valor</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pedidosPagina.map((pedido) => (
-              <tr
-                key={pedido.id}
-                onClick={() => router.push(`/pedidos/${pedido.id}`)}
-                className="border-b last:border-none hover:bg-gray-100 cursor-pointer"
-              >
-                <td className="px-4 py-2">{pedido.id}</td>
-                <td className="px-4 py-2">{pedido.data}</td>
-                <td className="px-4 py-2">{pedido.pessoa}</td>
-                <td className="px-4 py-2">{pedido.status}</td>
-                <td className="px-4 py-2">R$ {pedido.valor.toFixed(2)}</td>
-              </tr>
-            ))}
-            {pedidosPagina.length === 0 && (
-              <tr>
-                <td className="px-4 py-4 text-center" colSpan={5}>
-                  Nenhum pedido encontrado.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+      {/* Botão flutuante (celular) */}
+      <Link
+        href="/produtos/novo"
+        aria-label="Novo produto"
+        className="fixed bottom-20 right-4 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-transform active:scale-95 md:hidden"
+      >
+        <Plus className="size-7" />
+      </Link>
+    </div>
+  );
+}
 
-      {/* Paginação */}
-      <div className="mt-8 flex items-center gap-2 justify-center">
-        <Button
-          variant="default"
-          onClick={() => goToPage(safePage - 1)}
-          disabled={safePage <= 1}
-        >
-          Anterior
-        </Button>
-
-        <span>
-          Página {safePage} de {totalPages || 1}
-        </span>
-
-        <Button
-          variant="default"
-          onClick={() => goToPage(safePage + 1)}
-          disabled={safePage >= totalPages}
-        >
-          Próxima
-        </Button>
-      </div>
-    </main>
+function Chip({
+  texto,
+  ativo,
+  onClick,
+  destaque,
+}: {
+  texto: string;
+  ativo: boolean;
+  onClick: () => void;
+  destaque?: boolean;
+}) {
+  const base =
+    "shrink-0 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors";
+  const estilo = ativo
+    ? "border-primary bg-primary text-primary-foreground"
+    : destaque
+      ? "border-amber-200 bg-amber-50 text-amber-800"
+      : "border-gray-200 bg-white text-gray-600 hover:bg-gray-50";
+  return (
+    <button onClick={onClick} className={`${base} ${estilo}`}>
+      {texto}
+    </button>
   );
 }

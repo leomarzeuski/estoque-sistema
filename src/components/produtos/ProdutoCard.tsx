@@ -9,6 +9,7 @@ import { MovimentacaoDrawer } from "./MovimentacaoDrawer";
 import { statusEstoque, STATUS_INFO } from "@/lib/estoque";
 import { formatarNumero } from "@/lib/format";
 import { abreviacaoUnidade } from "@/data/catalogo";
+import { iconeCategoria } from "@/lib/categoria-icone";
 import { alternarFavorito } from "@/services/produtos";
 import type { Produto } from "@/types";
 
@@ -17,7 +18,9 @@ export function ProdutoCard({ produto }: { produto: Produto }) {
   const un = abreviacaoUnidade(produto.unidade);
 
   return (
-    <div className="flex items-center gap-2 rounded-xl border bg-white p-3 shadow-sm">
+    <div
+      className={`flex items-center gap-2 rounded-xl border border-l-4 bg-white p-3 shadow-sm transition-transform active:scale-[0.99] ${STATUS_INFO[status].borda}`}
+    >
       {/* Favoritar */}
       <button
         type="button"
@@ -34,7 +37,10 @@ export function ProdutoCard({ produto }: { produto: Produto }) {
 
       {/* Toca aqui para abrir o detalhe */}
       <Link href={`/produtos/${produto.id}`} className="min-w-0 flex-1">
-        <p className="truncate font-semibold text-gray-900">{produto.nome}</p>
+        <p className="truncate font-semibold text-gray-900">
+          <span className="mr-1">{iconeCategoria(produto.categoria)}</span>
+          {produto.nome}
+        </p>
         <p className="truncate text-xs text-gray-500">
           {produto.categoria} · mín. {formatarNumero(produto.estoqueMinimo)} {un}
         </p>

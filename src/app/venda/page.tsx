@@ -164,7 +164,7 @@ export default function VendaPage() {
           <Link
             href="/vendas"
             aria-label="Ver vendas"
-            className="flex h-10 w-10 items-center justify-center rounded-full text-gray-700 hover:bg-gray-100"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-white hover:bg-white/20"
           >
             <Receipt size={20} />
           </Link>

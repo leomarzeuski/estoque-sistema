@@ -128,7 +128,7 @@ export default function HistoricoPage() {
           <Link
             href="/graficos"
             aria-label="Ver gráficos"
-            className="flex h-10 w-10 items-center justify-center rounded-full text-gray-700 hover:bg-gray-100"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-white hover:bg-white/20"
           >
             <TrendingUp size={20} />
           </Link>

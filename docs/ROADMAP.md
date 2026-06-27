@@ -40,6 +40,8 @@ Marque com `[x]` o que for concluído.
 - [x] **Gráfico de valor em estoque por categoria**.
 - [x] **Clientes e vendas detalhadas**: preço editável por item (preço volátil),
       desconto (R$/%), cliente, e histórico de vendas com total por cliente.
+- [x] **Identidade visual**: cor verde da marca, cabeçalhos com gradiente,
+      ícones por categoria (🍎🥬🥕) e borda colorida por situação do estoque.
 
 ---
 

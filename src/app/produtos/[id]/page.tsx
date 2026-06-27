@@ -40,6 +40,7 @@ import {
 } from "@/services/produtos";
 import { statusEstoque, STATUS_INFO, valorEmEstoque } from "@/lib/estoque";
 import { formatarMoeda, formatarNumero } from "@/lib/format";
+import { iconeCategoria } from "@/lib/categoria-icone";
 import { nomeUnidade, abreviacaoUnidade } from "@/data/catalogo";
 import { STORAGE } from "@/constants/storage";
 
@@ -98,7 +99,7 @@ export default function ProdutoDetalhePage() {
   return (
     <div className="pb-24 md:pb-8">
       <PageHeader
-        titulo={produto.nome}
+        titulo={`${iconeCategoria(produto.categoria)} ${produto.nome}`}
         voltarHref="/"
         acao={
           <div className="flex items-center">
@@ -106,18 +107,18 @@ export default function ProdutoDetalhePage() {
               type="button"
               onClick={() => alternarFavorito(produto.id)}
               aria-label="Favorito"
-              className="flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:bg-gray-100"
+              className="flex h-10 w-10 items-center justify-center rounded-full text-white/80 hover:bg-white/20"
             >
               <Star
                 className={`size-5 ${
-                  produto.favorito ? "fill-amber-400 text-amber-400" : ""
+                  produto.favorito ? "fill-amber-300 text-amber-300" : ""
                 }`}
               />
             </button>
             <Link
               href={`/produtos/${produto.id}/editar`}
               aria-label="Editar produto"
-              className="flex h-10 w-10 items-center justify-center rounded-full text-gray-700 hover:bg-gray-100"
+              className="flex h-10 w-10 items-center justify-center rounded-full text-white hover:bg-white/20"
             >
               <Pencil size={20} />
             </Link>

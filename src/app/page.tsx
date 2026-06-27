@@ -27,6 +27,7 @@ import { useHydrated } from "@/hooks/useHydrated";
 import { useAuth } from "@/context/AuthContext";
 import { calcularResumo, statusEstoque } from "@/lib/estoque";
 import { formatarMoeda, formatarNumero } from "@/lib/format";
+import { iconeCategoria } from "@/lib/categoria-icone";
 import { popularExemplos } from "@/data/exemplos";
 import type { Produto } from "@/types";
 
@@ -161,19 +162,19 @@ export default function EstoquePage() {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-24 md:pb-8">
-      <header className="sticky top-0 z-10 flex items-center justify-between border-b bg-white px-4 py-3">
+      <header className="sticky top-0 z-10 flex items-center justify-between bg-gradient-to-br from-green-600 to-green-500 px-4 py-4 text-white shadow-sm">
         <div className="min-w-0">
-          <h1 className="truncate text-xl font-bold text-gray-900">
+          <h1 className="truncate text-xl font-bold">
             {hydrated
               ? `${saudacao()}${user?.nome ? `, ${user.nome}` : ""} 👋`
               : "Meu Estoque"}
           </h1>
-          <p className="truncate text-xs text-gray-500">
+          <p className="truncate text-xs text-green-50">
             {hydrated ? dataDeHoje() : "Carregando..."}
           </p>
         </div>
         <Link href="/produtos/novo" className="hidden md:block">
-          <Button className="h-11 gap-2">
+          <Button className="h-11 gap-2 bg-white text-green-700 hover:bg-green-50">
             <Plus className="size-5" /> Novo Produto
           </Button>
         </Link>
@@ -277,7 +278,7 @@ export default function EstoquePage() {
                 key={c}
                 ativo={filtro === c}
                 onClick={() => setFiltro(c)}
-                texto={c}
+                texto={`${iconeCategoria(c)} ${c}`}
               />
             ))}
             {arquivados.length > 0 && (

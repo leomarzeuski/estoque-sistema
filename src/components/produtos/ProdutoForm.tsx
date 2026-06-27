@@ -174,7 +174,7 @@ export function ProdutoForm({ produto }: { produto?: Produto }) {
             <button
               type="button"
               onClick={() => setMostrarNovaCategoria(true)}
-              className="mt-1 text-xs text-blue-600 hover:underline"
+              className="mt-1 text-xs text-green-700 hover:underline"
             >
               + nova categoria
             </button>

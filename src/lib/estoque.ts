@@ -17,6 +17,8 @@ interface StatusVisual {
   badge: string;
   /** Cor de destaque para o número da quantidade. */
   texto: string;
+  /** Cor da borda lateral do card. */
+  borda: string;
 }
 
 export const STATUS_INFO: Record<StatusEstoque, StatusVisual> = {
@@ -24,16 +26,19 @@ export const STATUS_INFO: Record<StatusEstoque, StatusVisual> = {
     label: "Em estoque",
     badge: "bg-green-100 text-green-800 border border-green-200",
     texto: "text-green-700",
+    borda: "border-l-green-400",
   },
   baixo: {
     label: "Estoque baixo",
     badge: "bg-amber-100 text-amber-900 border border-amber-200",
     texto: "text-amber-700",
+    borda: "border-l-amber-400",
   },
   sem: {
     label: "Sem estoque",
     badge: "bg-red-100 text-red-800 border border-red-200",
     texto: "text-red-700",
+    borda: "border-l-red-400",
   },
 };
 

@@ -118,6 +118,18 @@ export function MovimentacaoDrawer({
           },
         },
       });
+
+      // Avisa quando a saída/ajuste deixa o produto acabando ou zerado.
+      if (
+        (tipo === "saida" || tipo === "ajuste") &&
+        registro.estoqueDepois <= produto.estoqueMinimo
+      ) {
+        toast.warning(
+          registro.estoqueDepois <= 0
+            ? `${produto.nome} acabou!`
+            : `${produto.nome} está acabando.`
+        );
+      }
     }
     setOpen(false);
   };

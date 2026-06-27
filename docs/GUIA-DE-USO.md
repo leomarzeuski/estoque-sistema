@@ -161,7 +161,8 @@ Toque em qualquer produto para ver:
 ## 📊 Histórico de tudo
 
 Toque em **Histórico** no menu para ver **tudo que entrou e saiu**, dia por dia.
-Em cada dia também aparece **quanto você vendeu** (em dinheiro).
+Em cada dia também aparece **quanto você vendeu** (em dinheiro). No topo dá para
+filtrar por **Hoje, 7 dias, 30 dias ou Tudo** e ver o total vendido no período.
 
 ---
 

@@ -22,6 +22,8 @@ Marque com `[x]` o que for concluído.
 - [x] **Venda rápida** (carrinho) com baixa em lote e **recibo em PDF**.
 - [x] **Relatório do estoque em PDF**.
 - [x] **Histórico geral** de movimentações por dia, com faturamento do dia.
+- [x] **Filtros de período** no histórico (hoje / 7 / 30 dias) com total vendido.
+- [x] **Avisos** quando um produto acaba ou fica abaixo do mínimo após uma saída.
 
 ---
 
@@ -29,7 +31,6 @@ Marque com `[x]` o que for concluído.
 
 - [ ] **Editar a quantidade direto no cadastro** com confirmação (hoje é só por
       movimentação, de propósito — mas pode ser uma opção rápida).
-- [ ] **Filtro de período no histórico** (hoje, semana, mês) e total vendido.
 
 ---
 

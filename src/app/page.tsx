@@ -81,7 +81,13 @@ export default function EstoquePage() {
   const [filtro, setFiltro] = useState("todos");
   const [ordem, setOrdem] = useState("atencao");
 
-  const resumo = useMemo(() => calcularResumo(produtos), [produtos]);
+  const ativos = useMemo(() => produtos.filter((p) => !p.arquivado), [produtos]);
+  const arquivados = useMemo(
+    () => produtos.filter((p) => p.arquivado),
+    [produtos]
+  );
+
+  const resumo = useMemo(() => calcularResumo(ativos), [ativos]);
 
   const atividadeHoje = useMemo(() => {
     const dia = new Date().toDateString();
@@ -100,8 +106,8 @@ export default function EstoquePage() {
   }, [movimentacoes]);
 
   const categorias = useMemo(
-    () => Array.from(new Set(produtos.map((p) => p.categoria))).sort(),
-    [produtos]
+    () => Array.from(new Set(ativos.map((p) => p.categoria))).sort(),
+    [ativos]
   );
 
   const vendas = useMemo(() => {
@@ -116,10 +122,11 @@ export default function EstoquePage() {
 
   const visiveis = useMemo(() => {
     const termo = busca.trim().toLowerCase();
-    const filtrados = produtos.filter((p) => {
+    const base = filtro === "arquivados" ? arquivados : ativos;
+    const filtrados = base.filter((p) => {
       const achou = !termo || p.nome.toLowerCase().includes(termo);
       const passou =
-        filtro === "todos"
+        filtro === "todos" || filtro === "arquivados"
           ? true
           : filtro === "atencao"
             ? statusEstoque(p) !== "ok"
@@ -146,7 +153,7 @@ export default function EstoquePage() {
         Number(Boolean(b.favorito)) - Number(Boolean(a.favorito)) ||
         comparar(a, b)
     );
-  }, [produtos, busca, filtro, ordem, vendas]);
+  }, [ativos, arquivados, busca, filtro, ordem, vendas]);
 
   const semProdutos = hydrated && produtos.length === 0;
   const temAtividade =
@@ -270,6 +277,13 @@ export default function EstoquePage() {
                 texto={c}
               />
             ))}
+            {arquivados.length > 0 && (
+              <Chip
+                ativo={filtro === "arquivados"}
+                onClick={() => setFiltro("arquivados")}
+                texto={`Arquivados (${arquivados.length})`}
+              />
+            )}
           </div>
         )}
 

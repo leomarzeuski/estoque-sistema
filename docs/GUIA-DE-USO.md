@@ -164,6 +164,9 @@ Toque em qualquer produto para ver:
 - Para **editar** (mudar nome, preço...): toque no produto e no **lápis** ✏️ no topo.
   Ao editar, você também pode **corrigir a quantidade** (isso registra um ajuste).
 - Para **duplicar** (criar um parecido): toque no produto e em **"Duplicar produto"**.
+- Para **arquivar** (parou de vender, mas quer guardar o histórico): toque em
+  **"Arquivar produto"**. Ele some das listas; para ver ou reativar, use o filtro
+  **"Arquivados"** na tela inicial.
 - Para **excluir**: toque no produto e role até **"Excluir produto"** (em vermelho).
   O sistema pede confirmação antes de apagar.
 

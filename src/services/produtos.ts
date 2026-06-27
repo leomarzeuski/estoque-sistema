@@ -117,6 +117,20 @@ export function alternarFavorito(id: string): void {
   write<Produto>(PRODUTOS_KEY, novos);
 }
 
+/** Arquiva/desarquiva o produto (sai das listas, mas mantém o histórico). */
+export function alternarArquivado(id: string): void {
+  const produtos = read<Produto>(PRODUTOS_KEY);
+  const indice = produtos.findIndex((p) => p.id === id);
+  if (indice === -1) return;
+  const novos = [...produtos];
+  novos[indice] = {
+    ...novos[indice],
+    arquivado: !novos[indice].arquivado,
+    atualizadoEm: new Date().toISOString(),
+  };
+  write<Produto>(PRODUTOS_KEY, novos);
+}
+
 /** Remove o produto e todo o seu histórico de movimentações. */
 export function removerProduto(id: string): void {
   write<Produto>(

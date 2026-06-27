@@ -20,7 +20,7 @@ export function sugestaoCompra(produto: Produto): number {
 /** Produtos que precisam repor (baixo ou zerado), já com a sugestão de compra. */
 export function listaReposicao(produtos: Produto[]): ItemReposicao[] {
   return produtos
-    .filter((p) => statusEstoque(p) !== "ok")
+    .filter((p) => !p.arquivado && statusEstoque(p) !== "ok")
     .sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"))
     .map((produto) => ({ produto, comprar: sugestaoCompra(produto) }));
 }

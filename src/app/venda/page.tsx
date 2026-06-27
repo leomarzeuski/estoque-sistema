@@ -28,7 +28,10 @@ export default function VendaPage() {
   const disponiveis = useMemo(() => {
     const termo = busca.trim().toLowerCase();
     return produtos.filter(
-      (p) => p.quantidade > 0 && (!termo || p.nome.toLowerCase().includes(termo))
+      (p) =>
+        !p.arquivado &&
+        p.quantidade > 0 &&
+        (!termo || p.nome.toLowerCase().includes(termo))
     );
   }, [produtos, busca]);
 

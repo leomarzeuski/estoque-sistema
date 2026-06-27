@@ -10,6 +10,7 @@ import {
   Trash2,
   Copy,
   Star,
+  Archive,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -32,7 +33,11 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useProduto } from "@/hooks/useProdutos";
 import { useHydrated } from "@/hooks/useHydrated";
-import { removerProduto, alternarFavorito } from "@/services/produtos";
+import {
+  removerProduto,
+  alternarFavorito,
+  alternarArquivado,
+} from "@/services/produtos";
 import { statusEstoque, STATUS_INFO, valorEmEstoque } from "@/lib/estoque";
 import { formatarMoeda, formatarNumero } from "@/lib/format";
 import { nomeUnidade, abreviacaoUnidade } from "@/data/catalogo";
@@ -220,6 +225,21 @@ export default function ProdutoDetalhePage() {
         >
           <Copy className="size-4" />
           Duplicar produto
+        </Button>
+
+        {/* Arquivar */}
+        <Button
+          variant="outline"
+          className="h-12 w-full gap-2"
+          onClick={() => {
+            alternarArquivado(produto.id);
+            toast.success(
+              produto.arquivado ? "Produto reativado." : "Produto arquivado."
+            );
+          }}
+        >
+          <Archive className="size-4" />
+          {produto.arquivado ? "Reativar produto" : "Arquivar produto"}
         </Button>
 
         {/* Excluir */}

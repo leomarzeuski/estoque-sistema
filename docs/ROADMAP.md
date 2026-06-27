@@ -34,13 +34,13 @@ Marque com `[x]` o que for concluído.
 - [x] **Tema escuro**.
 - [x] **Conferência de estoque** (contagem guiada item a item).
 - [x] **Busca por voz** na tela inicial.
+- [x] **Arquivar produtos** (inativos): saem das listas, mantêm o histórico.
 
 ---
 
 ## 🔜 Curto prazo (alto valor, baixo esforço)
 
 - [ ] **Categorias personalizadas** (criar/editar as suas próprias).
-- [ ] **Marcar produto inativo** (esconder sem apagar o histórico).
 
 ---
 

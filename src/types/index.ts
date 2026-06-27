@@ -27,6 +27,8 @@ export interface Produto {
   fornecedor?: string;
   /** Marcado como favorito (aparece no topo da lista). */
   favorito?: boolean;
+  /** Arquivado: sai das listas do dia a dia, mas mantém o histórico. */
+  arquivado?: boolean;
   /** Anotações livres (opcional). */
   observacao?: string;
   /** Data de criação (ISO 8601). */

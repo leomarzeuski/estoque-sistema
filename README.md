@@ -37,7 +37,8 @@ tecnologia.
 - **Gráficos**: produtos mais vendidos e vendas por dia.
 - **Favoritos**: fixe seus produtos do dia a dia no topo da lista.
 - **Login com um toque** (nome opcional, sem senha).
-- **Funciona offline** e pode ser **instalado como aplicativo** no celular (PWA).
+- **Funciona offline de verdade** (abre sem internet) e pode ser **instalado como
+  aplicativo** no celular (PWA).
 
 📖 Guia passo a passo para o usuário final: [`docs/GUIA-DE-USO.md`](docs/GUIA-DE-USO.md)
 

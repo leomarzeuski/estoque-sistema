@@ -180,9 +180,10 @@ Implementação **mínima e local** (`context/AuthContext.tsx` + `middleware.ts`
 - `public/manifest.webmanifest` + `public/icon.svg` definem nome, cores e ícone.
 - `app/layout.tsx` declara `manifest`, `appleWebApp` e `themeColor`.
 - Isso permite **"Adicionar à tela inicial"** no Android e iOS.
-- ⚠️ Ainda **não** há _service worker_ (cache offline total dos arquivos). O app
-  funciona offline para os **dados** (localStorage), mas o carregamento inicial
-  precisa de rede. Ver [roadmap](ROADMAP.md).
+- **Service worker** (`public/sw.js`, registrado em `components/RegistrarSW.tsx`,
+  só em produção): faz o app **abrir offline** após a primeira visita —
+  navegação _network-first_ com reserva no cache e arquivos em
+  _stale-while-revalidate_. Os dados continuam no `localStorage`.
 
 ---
 

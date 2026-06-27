@@ -35,6 +35,7 @@ Marque com `[x]` o que for concluído.
 - [x] **Conferência de estoque** (contagem guiada item a item).
 - [x] **Busca por voz** na tela inicial.
 - [x] **Arquivar produtos** (inativos): saem das listas, mantêm o histórico.
+- [x] **Funciona offline de verdade** (service worker abre o app sem internet).
 
 ---
 
@@ -51,8 +52,6 @@ Marque com `[x]` o que for concluído.
       automático. Exigiria:
   - Trocar a camada `lib/db.ts` por chamadas à API (mantendo a mesma interface).
   - Autenticação real (substituir o `"tempToken"`).
-- [ ] **Service worker** para funcionamento 100% offline (inclusive o
-      carregamento), com `next-pwa` ou Workbox.
 - [ ] **Múltiplos usuários / funcionários**, cada um com seu acesso.
 
 ---

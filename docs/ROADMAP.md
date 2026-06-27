@@ -19,15 +19,17 @@ Marque com `[x]` o que for concluído.
       compartilhamento (WhatsApp / copiar).
 - [x] **Desfazer** entradas, saídas e ajustes pelo aviso (toast).
 - [x] **Convite para instalar** o app na tela inicial.
+- [x] **Venda rápida** (carrinho) com baixa em lote e **recibo em PDF**.
+- [x] **Relatório do estoque em PDF**.
+- [x] **Histórico geral** de movimentações por dia, com faturamento do dia.
 
 ---
 
 ## 🔜 Curto prazo (alto valor, baixo esforço)
 
-- [ ] **Relatório em PDF/impressão**: lista do estoque atual e/ou movimentações
-      do dia. _(O projeto já tem `jspdf` + `jspdf-autotable` instalados.)_
 - [ ] **Editar a quantidade direto no cadastro** com confirmação (hoje é só por
       movimentação, de propósito — mas pode ser uma opção rápida).
+- [ ] **Filtro de período no histórico** (hoje, semana, mês) e total vendido.
 
 ---
 
@@ -47,7 +49,6 @@ Marque com `[x]` o que for concluído.
 ## 💡 Longo prazo / ideias
 
 - [ ] **Leitor de código de barras** pela câmera do celular para achar produtos.
-- [ ] **Histórico geral** (todas as movimentações do negócio, não só por produto).
 - [ ] **Gráficos** de produtos que mais saem, valor de estoque ao longo do tempo.
 - [ ] **Controle de fornecedores** (cadastro próprio, contatos).
 - [ ] **Modo "venda rápida"**: registrar várias saídas de uma vez (carrinho).

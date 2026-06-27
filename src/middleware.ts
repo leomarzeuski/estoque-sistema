@@ -11,6 +11,6 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Protege a tela de estoque, as telas de produtos e os ajustes.
-  matcher: ["/", "/produtos/:path*", "/configuracoes"],
+  // Protege as telas internas do app.
+  matcher: ["/", "/produtos/:path*", "/venda", "/configuracoes", "/historico"],
 };

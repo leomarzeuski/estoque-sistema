@@ -26,6 +26,11 @@ tecnologia.
 - **Lista de compras** automática do que está acabando, com quantidade sugerida e
   **compartilhamento no WhatsApp**.
 - **Desfazer** entradas/saídas com um toque (rede de segurança contra erros).
+- **Venda rápida**: monte o carrinho, finalize e o estoque baixa sozinho, com
+  **recibo em PDF**.
+- **Histórico** geral de tudo que entra e sai, agrupado por dia e com o
+  **faturamento** do dia.
+- **Relatório do estoque em PDF** para imprimir ou guardar.
 - **Backup**: exportar e restaurar todos os dados num arquivo (tela **Ajustes**).
 - **Funciona offline** e pode ser **instalado como aplicativo** no celular (PWA).
 

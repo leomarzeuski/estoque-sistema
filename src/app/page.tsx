@@ -82,9 +82,14 @@ export default function EstoquePage() {
     const doDia = movimentacoes.filter(
       (m) => new Date(m.data).toDateString() === dia
     );
+    const saidas = doDia.filter((m) => m.tipo === "saida");
     return {
       entradas: doDia.filter((m) => m.tipo === "entrada").length,
-      saidas: doDia.filter((m) => m.tipo === "saida").length,
+      saidas: saidas.length,
+      vendido: saidas.reduce(
+        (soma, m) => soma + m.quantidade * (m.valorUnitario ?? 0),
+        0
+      ),
     };
   }, [movimentacoes]);
 
@@ -186,6 +191,12 @@ export default function EstoquePage() {
           <p className="text-center text-xs text-gray-500">
             Hoje: {formatarNumero(atividadeHoje.entradas)} entrada(s) ·{" "}
             {formatarNumero(atividadeHoje.saidas)} saída(s)
+            {atividadeHoje.vendido > 0 && (
+              <span className="font-medium text-green-700">
+                {" "}
+                · {formatarMoeda(atividadeHoje.vendido)} vendidos
+              </span>
+            )}
           </p>
         )}
 

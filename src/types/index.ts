@@ -52,6 +52,8 @@ export interface Movimentacao {
   estoqueDepois: number;
   /** Motivo opcional, ex: "Compra no box 42", "Venda", "Perda". */
   motivo?: string;
+  /** Preço de venda unitário no momento (só em saídas/vendas), para faturamento. */
+  valorUnitario?: number;
   /** Data/hora da movimentação (ISO 8601). */
   data: string;
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { Download, Upload, Sparkles, Trash2 } from "lucide-react";
+import { Download, Upload, Sparkles, Trash2, FileText } from "lucide-react";
 import { toast } from "sonner";
 
 import { PageHeader } from "@/components/PageHeader";
@@ -18,7 +18,9 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { baixarBackup, restaurarBackup } from "@/services/backup";
+import { baixarRelatorioEstoque } from "@/services/relatorios";
 import { popularExemplos } from "@/data/exemplos";
+import { useProdutos } from "@/hooks/useProdutos";
 import { limparTudo } from "@/lib/db";
 
 function Secao({
@@ -41,6 +43,7 @@ function Secao({
 
 export default function ConfiguracoesPage() {
   const inputArquivo = useRef<HTMLInputElement>(null);
+  const produtos = useProdutos();
 
   const aoEscolherArquivo = (e: React.ChangeEvent<HTMLInputElement>) => {
     const arquivo = e.target.files?.[0];
@@ -77,6 +80,27 @@ export default function ConfiguracoesPage() {
       <PageHeader titulo="Ajustes" voltarHref="/" />
 
       <div className="mx-auto max-w-2xl space-y-4 p-4">
+        {/* Relatório */}
+        <Secao
+          titulo="Relatório do estoque"
+          descricao="Gera um PDF com todos os produtos, situação e valores — bom para imprimir ou guardar."
+        >
+          <Button
+            variant="outline"
+            className="h-12 w-full justify-start gap-3 text-base"
+            onClick={async () => {
+              if (produtos.length === 0) {
+                toast.error("Cadastre produtos antes de gerar o relatório.");
+                return;
+              }
+              await baixarRelatorioEstoque(produtos);
+            }}
+          >
+            <FileText className="size-5 text-blue-700" />
+            Baixar relatório (PDF)
+          </Button>
+        </Secao>
+
         {/* Backup */}
         <Secao
           titulo="Backup e segurança"

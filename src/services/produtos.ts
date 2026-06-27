@@ -122,7 +122,8 @@ function aplicarMovimentacao(
   tipo: TipoMovimentacao,
   delta: number,
   quantidadeRegistro: number,
-  motivo?: string
+  motivo?: string,
+  valorUnitario?: number
 ): Movimentacao | undefined {
   const produtos = read<Produto>(PRODUTOS_KEY);
   const indice = produtos.findIndex((p) => p.id === id);
@@ -149,6 +150,7 @@ function aplicarMovimentacao(
     estoqueAntes,
     estoqueDepois,
     motivo: motivo?.trim() || undefined,
+    valorUnitario,
   });
 }
 
@@ -162,14 +164,18 @@ export function registrarEntrada(
   return aplicarMovimentacao(id, "entrada", qtd, qtd, motivo);
 }
 
-/** Registra a saída de mercadoria (diminui o estoque). */
+/**
+ * Registra a saída de mercadoria (diminui o estoque).
+ * `valorUnitario` (opcional) guarda o preço de venda no momento, para faturamento.
+ */
 export function registrarSaida(
   id: string,
   quantidade: number,
-  motivo?: string
+  motivo?: string,
+  valorUnitario?: number
 ): Movimentacao | undefined {
   const qtd = Math.abs(quantidade);
-  return aplicarMovimentacao(id, "saida", -qtd, qtd, motivo);
+  return aplicarMovimentacao(id, "saida", -qtd, qtd, motivo, valorUnitario);
 }
 
 /** Corrige o estoque para um valor exato (contagem física). */

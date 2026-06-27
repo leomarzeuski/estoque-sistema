@@ -113,6 +113,19 @@ Digite **quanto saiu** e confirme. O estoque diminui automaticamente.
 
 ---
 
+## 💰 Venda rápida (vários itens de uma vez)
+
+Para registrar a compra de um cliente de uma vez só, toque em **Venda** no menu.
+
+1. Procure os produtos e use o **+** para ir montando a venda.
+2. Em cima aparece o **total em dinheiro** automaticamente.
+3. Toque em **"Finalizar venda"**.
+
+Pronto: o estoque de todos os itens **baixa sozinho** e sai um **recibo em PDF**
+para você dar ao cliente ou guardar.
+
+---
+
 ## 🔧 Corrigindo o estoque (Ajustar)
 
 Fez a contagem e o número no sistema está diferente do real? Use o **Ajustar**:
@@ -142,6 +155,21 @@ Toque em qualquer produto para ver:
 - Para **editar** (mudar nome, preço...): toque no produto e no **lápis** ✏️ no topo.
 - Para **excluir**: toque no produto e role até **"Excluir produto"** (em vermelho).
   O sistema pede confirmação antes de apagar.
+
+---
+
+## 📊 Histórico de tudo
+
+Toque em **Histórico** no menu para ver **tudo que entrou e saiu**, dia por dia.
+Em cada dia também aparece **quanto você vendeu** (em dinheiro).
+
+---
+
+## 🖨️ Relatório para imprimir
+
+Em **Ajustes → Relatório do estoque**, toque em **"Baixar relatório (PDF)"** para
+gerar uma folha com todos os produtos, a situação de cada um e o valor total.
+Bom para imprimir e conferir no papel.
 
 ---
 

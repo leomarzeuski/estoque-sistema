@@ -1,11 +1,13 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import {
   ArrowUpCircle,
   ArrowDownCircle,
   SlidersHorizontal,
   History,
+  TrendingUp,
 } from "lucide-react";
 
 import { PageHeader } from "@/components/PageHeader";
@@ -119,7 +121,19 @@ export default function HistoricoPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-24 md:pb-8">
-      <PageHeader titulo="Histórico" voltarHref="/" />
+      <PageHeader
+        titulo="Histórico"
+        voltarHref="/"
+        acao={
+          <Link
+            href="/graficos"
+            aria-label="Ver gráficos"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-gray-700 hover:bg-gray-100"
+          >
+            <TrendingUp size={20} />
+          </Link>
+        }
+      />
 
       <div className="mx-auto max-w-2xl space-y-4 p-4">
         {/* Filtros de período */}

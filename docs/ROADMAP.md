@@ -26,6 +26,7 @@ Marque com `[x]` o que for concluído.
 - [x] **Avisos** quando um produto acaba ou fica abaixo do mínimo após uma saída.
 - [x] **Login com um toque** (nome opcional, sem senha).
 - [x] **Acessibilidade**: modo de fonte grande.
+- [x] **Gráficos**: produtos mais vendidos e vendas por dia (acessível pelo Histórico).
 
 ---
 
@@ -52,7 +53,7 @@ Marque com `[x]` o que for concluído.
 ## 💡 Longo prazo / ideias
 
 - [ ] **Leitor de código de barras** pela câmera do celular para achar produtos.
-- [ ] **Gráficos** de produtos que mais saem, valor de estoque ao longo do tempo.
+- [ ] **Mais gráficos**: valor de estoque ao longo do tempo, margem de lucro.
 - [ ] **Controle de fornecedores** (cadastro próprio, contatos).
 - [ ] **Modo "venda rápida"**: registrar várias saídas de uma vez (carrinho).
 - [ ] **Tema escuro** (as variáveis de cor já existem em `globals.css`).

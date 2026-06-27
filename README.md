@@ -33,6 +33,7 @@ tecnologia.
 - **Relatório do estoque em PDF** para imprimir ou guardar.
 - **Backup**: exportar e restaurar todos os dados num arquivo (tela **Ajustes**).
 - **Acessibilidade**: opção de **fonte grande** para enxergar melhor.
+- **Gráficos**: produtos mais vendidos e vendas por dia.
 - **Login com um toque** (nome opcional, sem senha).
 - **Funciona offline** e pode ser **instalado como aplicativo** no celular (PWA).
 

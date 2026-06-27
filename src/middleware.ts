@@ -12,5 +12,12 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   // Protege as telas internas do app.
-  matcher: ["/", "/produtos/:path*", "/venda", "/configuracoes", "/historico"],
+  matcher: [
+    "/",
+    "/produtos/:path*",
+    "/venda",
+    "/historico",
+    "/graficos",
+    "/configuracoes",
+  ],
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,7 +11,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { CATEGORIAS, UNIDADES } from "@/data/catalogo";
+import { UNIDADES } from "@/data/catalogo";
+import { useCategorias } from "@/hooks/useCategorias";
+import { adicionarCategoria } from "@/services/categorias";
 import {
   criarProduto,
   atualizarProduto,
@@ -46,11 +48,15 @@ function Erro({ mensagem }: { mensagem?: string }) {
 export function ProdutoForm({ produto }: { produto?: Produto }) {
   const router = useRouter();
   const editando = Boolean(produto);
+  const categorias = useCategorias();
+  const [mostrarNovaCategoria, setMostrarNovaCategoria] = useState(false);
+  const [novaCategoria, setNovaCategoria] = useState("");
 
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -108,6 +114,15 @@ export function ProdutoForm({ produto }: { produto?: Produto }) {
     }
   };
 
+  const confirmarNovaCategoria = () => {
+    const nome = novaCategoria.trim();
+    if (!nome) return;
+    adicionarCategoria(nome);
+    setValue("categoria", nome);
+    setNovaCategoria("");
+    setMostrarNovaCategoria(false);
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
       {/* Nome */}
@@ -132,12 +147,38 @@ export function ProdutoForm({ produto }: { produto?: Produto }) {
             Categoria
           </Label>
           <select id="categoria" className={selectClasse} {...register("categoria")}>
-            {CATEGORIAS.map((c) => (
+            {categorias.map((c) => (
               <option key={c} value={c}>
                 {c}
               </option>
             ))}
           </select>
+          {mostrarNovaCategoria ? (
+            <div className="mt-2 flex gap-2">
+              <Input
+                value={novaCategoria}
+                onChange={(e) => setNovaCategoria(e.target.value)}
+                placeholder="Nova categoria"
+                className="h-10"
+              />
+              <Button
+                type="button"
+                variant="outline"
+                className="h-10 shrink-0"
+                onClick={confirmarNovaCategoria}
+              >
+                Adicionar
+              </Button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setMostrarNovaCategoria(true)}
+              className="mt-1 text-xs text-blue-600 hover:underline"
+            >
+              + nova categoria
+            </button>
+          )}
         </div>
         <div>
           <Label htmlFor="unidade" className="mb-1 block text-base">

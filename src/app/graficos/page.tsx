@@ -14,14 +14,29 @@ import { TrendingUp } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { MensagemEstado } from "@/components/MensagemEstado";
 import { useMovimentacoes } from "@/hooks/useMovimentacoes";
+import { useProdutos } from "@/hooks/useProdutos";
 import { useHydrated } from "@/hooks/useHydrated";
+import { valorEmEstoque } from "@/lib/estoque";
 import { formatarMoeda, formatarNumero } from "@/lib/format";
 
 const DIA = 86_400_000;
 
 export default function GraficosPage() {
   const movimentacoes = useMovimentacoes();
+  const produtos = useProdutos();
   const hydrated = useHydrated();
+
+  const valorPorCategoria = useMemo(() => {
+    const mapa = new Map<string, number>();
+    for (const p of produtos) {
+      if (p.arquivado) continue;
+      mapa.set(p.categoria, (mapa.get(p.categoria) ?? 0) + valorEmEstoque(p));
+    }
+    return [...mapa.entries()]
+      .map(([nome, valor]) => ({ nome, valor }))
+      .filter((x) => x.valor > 0)
+      .sort((a, b) => b.valor - a.valor);
+  }, [produtos]);
 
   const maisVendidos = useMemo(() => {
     const corte = Date.now() - 30 * DIA;
@@ -61,7 +76,9 @@ export default function GraficosPage() {
   }, [movimentacoes]);
 
   const temDados =
-    maisVendidos.length > 0 || vendasPorDia.some((d) => d.valor > 0);
+    maisVendidos.length > 0 ||
+    vendasPorDia.some((d) => d.valor > 0) ||
+    valorPorCategoria.length > 0;
 
   return (
     <div className="min-h-screen bg-gray-50 pb-24 md:pb-8">
@@ -156,6 +173,46 @@ export default function GraficosPage() {
                 </ResponsiveContainer>
               )}
             </section>
+
+            {valorPorCategoria.length > 0 && (
+              <section className="rounded-xl border bg-white p-4 shadow-sm">
+                <h2 className="mb-3 font-semibold text-gray-900">
+                  Valor em estoque por categoria
+                </h2>
+                <ResponsiveContainer
+                  width="100%"
+                  height={Math.max(160, valorPorCategoria.length * 44)}
+                >
+                  <BarChart
+                    data={valorPorCategoria}
+                    layout="vertical"
+                    margin={{ top: 0, right: 16, left: 8, bottom: 0 }}
+                  >
+                    <XAxis type="number" hide />
+                    <YAxis
+                      type="category"
+                      dataKey="nome"
+                      width={96}
+                      fontSize={12}
+                      tickLine={false}
+                      axisLine={false}
+                    />
+                    <Tooltip
+                      formatter={(value) => [
+                        formatarMoeda(Number(value)),
+                        "Valor",
+                      ]}
+                    />
+                    <Bar
+                      dataKey="valor"
+                      fill="#16a34a"
+                      radius={[0, 6, 6, 0]}
+                      isAnimationActive={false}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </section>
+            )}
           </>
         )}
       </div>

@@ -92,6 +92,8 @@ hora de comprar:
 
 > Só o **nome** é obrigatório. O resto você pode deixar em zero e ajustar depois.
 
+> Não achou a categoria na lista? Toque em **"+ nova categoria"** para criar a sua.
+
 ---
 
 ## 📥 Quando chega mercadoria (Entrada)

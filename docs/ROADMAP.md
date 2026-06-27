@@ -36,12 +36,15 @@ Marque com `[x]` o que for concluído.
 - [x] **Busca por voz** na tela inicial.
 - [x] **Arquivar produtos** (inativos): saem das listas, mantêm o histórico.
 - [x] **Funciona offline de verdade** (service worker abre o app sem internet).
+- [x] **Categorias personalizadas** (criar as suas próprias no cadastro).
+- [x] **Gráfico de valor em estoque por categoria**.
 
 ---
 
 ## 🔜 Curto prazo (alto valor, baixo esforço)
 
-- [ ] **Categorias personalizadas** (criar/editar as suas próprias).
+- [ ] **Imprimir etiqueta/preço** de um produto.
+- [ ] **Aviso diário** dos itens que precisam repor (notificação no celular).
 
 ---
 

@@ -18,6 +18,7 @@ export const config = {
     "/venda",
     "/historico",
     "/graficos",
+    "/conferencia",
     "/configuracoes",
   ],
 };

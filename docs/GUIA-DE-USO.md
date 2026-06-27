@@ -53,6 +53,9 @@ Toque na **estrela ⭐** de um produto para marcá-lo como **favorito** — ele 
 sempre no topo. Use também o seletor de **ordenação** (canto direito) para listar
 por nome, mais estoque, menos estoque ou mais vendidos.
 
+Não gosta de digitar? Toque no **🎤 microfone** ao lado da busca e **fale o nome**
+do produto.
+
 ---
 
 ## 🛒 Lista de compras (o que repor)
@@ -182,6 +185,16 @@ mais vendidos** e as **vendas por dia**.
 Em **Ajustes → Relatório do estoque**, toque em **"Baixar relatório (PDF)"** para
 gerar uma folha com todos os produtos, a situação de cada um e o valor total.
 Bom para imprimir e conferir no papel.
+
+---
+
+## ✅ Conferência do estoque
+
+De vez em quando, vale conferir se o estoque do sistema bate com o que você tem de
+verdade. Em **Ajustes → Conferência do estoque**, toque em **"Fazer conferência"**.
+O sistema mostra **um produto de cada vez**: digite **quanto tem de verdade** e
+toque em **Confirmar** (ou **Pular**). No fim, ele corrige sozinho o que estava
+diferente.
 
 ---
 

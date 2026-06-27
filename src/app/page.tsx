@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { MensagemEstado } from "@/components/MensagemEstado";
 import { InstallBanner } from "@/components/InstallBanner";
+import { BotaoVoz } from "@/components/BotaoVoz";
 import { ProdutoCard } from "@/components/produtos/ProdutoCard";
 import { ListaReposicaoDrawer } from "@/components/produtos/ListaReposicaoDrawer";
 import { useProdutos } from "@/hooks/useProdutos";
@@ -232,14 +233,17 @@ export default function EstoquePage() {
         )}
 
         {/* Busca */}
-        <div className="relative">
-          <Search className="pointer-events-none absolute left-3 top-1/2 z-10 size-5 -translate-y-1/2 text-gray-400" />
-          <Input
-            value={busca}
-            onChange={(e) => setBusca(e.target.value)}
-            placeholder="Buscar produto..."
-            className="h-12 pl-10"
-          />
+        <div className="flex gap-2">
+          <div className="relative flex-1">
+            <Search className="pointer-events-none absolute left-3 top-1/2 z-10 size-5 -translate-y-1/2 text-gray-400" />
+            <Input
+              value={busca}
+              onChange={(e) => setBusca(e.target.value)}
+              placeholder="Buscar produto..."
+              className="h-12 pl-10"
+            />
+          </div>
+          <BotaoVoz onResultado={setBusca} />
         </div>
 
         {/* Filtros por categoria */}

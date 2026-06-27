@@ -32,13 +32,15 @@ Marque com `[x]` o que for concluído.
 - [x] **Favoritos**: fixar produtos no topo da lista.
 - [x] **Enviar a lista de reposição no WhatsApp** (mensagem pronta).
 - [x] **Tema escuro**.
+- [x] **Conferência de estoque** (contagem guiada item a item).
+- [x] **Busca por voz** na tela inicial.
 
 ---
 
 ## 🔜 Curto prazo (alto valor, baixo esforço)
 
-- [ ] **Busca por voz** para achar produtos sem digitar.
-- [ ] **Conferência rápida** (modo de contagem do estoque, item por item).
+- [ ] **Categorias personalizadas** (criar/editar as suas próprias).
+- [ ] **Marcar produto inativo** (esconder sem apagar o histórico).
 
 ---
 

@@ -1,7 +1,15 @@
 "use client";
 
 import { useRef } from "react";
-import { Download, Upload, Sparkles, Trash2, FileText } from "lucide-react";
+import Link from "next/link";
+import {
+  Download,
+  Upload,
+  Sparkles,
+  Trash2,
+  FileText,
+  ClipboardCheck,
+} from "lucide-react";
 import { toast } from "sonner";
 
 import { PageHeader } from "@/components/PageHeader";
@@ -85,6 +93,22 @@ export default function ConfiguracoesPage() {
       <PageHeader titulo="Ajustes" voltarHref="/" />
 
       <div className="mx-auto max-w-2xl space-y-4 p-4">
+        {/* Conferência */}
+        <Secao
+          titulo="Conferência do estoque"
+          descricao="Confira a quantidade real, produto por produto, e corrija o sistema."
+        >
+          <Link href="/conferencia">
+            <Button
+              variant="outline"
+              className="h-12 w-full justify-start gap-3 text-base"
+            >
+              <ClipboardCheck className="size-5 text-green-700" />
+              Fazer conferência
+            </Button>
+          </Link>
+        </Secao>
+
         {/* Relatório */}
         <Secao
           titulo="Relatório do estoque"

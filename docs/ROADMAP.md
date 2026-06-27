@@ -38,6 +38,8 @@ Marque com `[x]` o que for concluído.
 - [x] **Funciona offline de verdade** (service worker abre o app sem internet).
 - [x] **Categorias personalizadas** (criar as suas próprias no cadastro).
 - [x] **Gráfico de valor em estoque por categoria**.
+- [x] **Clientes e vendas detalhadas**: preço editável por item (preço volátil),
+      desconto (R$/%), cliente, e histórico de vendas com total por cliente.
 
 ---
 

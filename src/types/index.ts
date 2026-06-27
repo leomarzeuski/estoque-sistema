@@ -61,3 +61,39 @@ export interface Movimentacao {
   /** Data/hora da movimentação (ISO 8601). */
   data: string;
 }
+
+/** Cliente para quem se vende (opcional em cada venda). */
+export interface Cliente {
+  id: string;
+  nome: string;
+  telefone?: string;
+  observacao?: string;
+  criadoEm: string;
+}
+
+export type DescontoTipo = "R$" | "%";
+
+/** Um item dentro de uma venda, com o preço praticado e o desconto. */
+export interface VendaItem {
+  produtoId: string;
+  nome: string;
+  unidade: string;
+  quantidade: number;
+  /** Preço unitário praticado nesta venda (o preço é volátil, muda por dia). */
+  precoUnitario: number;
+  desconto: number;
+  descontoTipo: DescontoTipo;
+  /** (precoUnitario x quantidade) menos o desconto. */
+  subtotal: number;
+}
+
+/** Uma venda registrada: para quem, quando, o quê e por quanto. */
+export interface Venda {
+  id: string;
+  data: string;
+  clienteId?: string;
+  /** Nome do cliente no momento (ou "Cliente avulso"). */
+  clienteNome: string;
+  itens: VendaItem[];
+  total: number;
+}

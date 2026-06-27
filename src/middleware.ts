@@ -16,6 +16,7 @@ export const config = {
     "/",
     "/produtos/:path*",
     "/venda",
+    "/vendas",
     "/historico",
     "/graficos",
     "/conferencia",

@@ -124,16 +124,24 @@ Digite **quanto saiu** e confirme. O estoque diminui automaticamente.
 
 ---
 
-## 💰 Venda rápida (vários itens de uma vez)
+## 💰 Venda (cliente, preço e desconto)
 
-Para registrar a compra de um cliente de uma vez só, toque em **Venda** no menu.
+Toque em **Venda** no menu. Para registrar uma venda:
 
-1. Procure os produtos e use o **+** para ir montando a venda.
-2. Em cima aparece o **total em dinheiro** automaticamente.
-3. Toque em **"Finalizar venda"**.
+1. **Cliente**: escolha quem está comprando (ou deixe "Cliente avulso"). Para um
+   cliente novo, toque no botão de **+pessoa** e digite o nome.
+2. **Produtos**: busque o produto e toque para adicionar ao carrinho.
+3. Em cada item você ajusta a **quantidade**, o **preço** (como o preço muda todo
+   dia, dá para mudar na hora) e um **desconto** (em R$ ou %). O subtotal se
+   ajusta sozinho.
+4. Toque em **"Finalizar venda"**.
 
-Pronto: o estoque de todos os itens **baixa sozinho** e sai um **recibo em PDF**
-para você dar ao cliente ou guardar.
+Pronto: o estoque baixa sozinho e sai um **recibo em PDF** com o cliente e os
+valores.
+
+> **Ver as vendas:** toque no ícone de **recibo** (canto superior da tela de
+> Venda) ou em **"vendidos"** na tela inicial. Lá você vê **quem comprou, quando
+> e por quanto**, além de **quem mais comprou**.
 
 ---
 

@@ -26,8 +26,11 @@ tecnologia.
 - **Lista de compras** automática do que está acabando, com quantidade sugerida e
   **compartilhamento no WhatsApp**.
 - **Desfazer** entradas/saídas com um toque (rede de segurança contra erros).
-- **Venda rápida**: monte o carrinho, finalize e o estoque baixa sozinho, com
-  **recibo em PDF**.
+- **Vendas**: monte o carrinho com **preço editável** por item (o preço muda
+  todo dia) e **desconto** (R$ ou %), escolha o **cliente** e finalize — baixa o
+  estoque e gera **recibo em PDF**.
+- **Clientes e histórico de vendas**: saiba **pra quem vendeu, quando e por
+  quanto**, e **quem mais comprou**.
 - **Histórico** geral de tudo que entra e sai, agrupado por dia e com o
   **faturamento** do dia.
 - **Relatório do estoque em PDF** para imprimir ou guardar.

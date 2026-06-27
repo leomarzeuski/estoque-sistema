@@ -7,7 +7,7 @@
 
 import type JsPDF from "jspdf";
 
-import type { Produto } from "@/types";
+import type { Produto, Venda } from "@/types";
 import {
   statusEstoque,
   STATUS_INFO,
@@ -78,47 +78,37 @@ export async function baixarRelatorioEstoque(produtos: Produto[]): Promise<void>
   doc.save(`relatorio-estoque-${new Date().toISOString().slice(0, 10)}.pdf`);
 }
 
-export interface ItemVenda {
-  produto: Produto;
-  quantidade: number;
-}
-
-/** Soma o total de uma venda (quantidade x preço de venda). */
-export function totalVenda(itens: ItemVenda[]): number {
-  return itens.reduce(
-    (soma, { produto, quantidade }) => soma + produto.precoVenda * quantidade,
-    0
-  );
-}
-
-/** Gera e baixa o recibo da venda em PDF. */
-export async function baixarReciboVenda(itens: ItemVenda[]): Promise<void> {
+/** Gera e baixa o recibo da venda em PDF (com cliente e descontos). */
+export async function baixarReciboVenda(venda: Venda): Promise<void> {
   const { doc, autoTable } = await novoPdf();
 
   doc.setFontSize(16);
   doc.text("Recibo de Venda", 14, 18);
   doc.setFontSize(10);
-  doc.text(new Date().toLocaleString("pt-BR"), 14, 25);
+  doc.text(new Date(venda.data).toLocaleString("pt-BR"), 14, 25);
+  doc.text(`Cliente: ${venda.clienteNome}`, 14, 31);
 
   autoTable(doc, {
-    startY: 32,
-    head: [["Produto", "Qtde", "Preço un.", "Subtotal"]],
-    body: itens.map(({ produto, quantidade }) => {
-      const un = abreviacaoUnidade(produto.unidade);
-      return [
-        produto.nome,
-        `${formatarNumero(quantidade)} ${un}`,
-        formatarMoeda(produto.precoVenda),
-        formatarMoeda(produto.precoVenda * quantidade),
-      ];
-    }),
+    startY: 38,
+    head: [["Produto", "Qtd", "Preço un.", "Desconto", "Subtotal"]],
+    body: venda.itens.map((item) => [
+      item.nome,
+      `${formatarNumero(item.quantidade)} ${abreviacaoUnidade(item.unidade)}`,
+      formatarMoeda(item.precoUnitario),
+      item.desconto > 0
+        ? item.descontoTipo === "%"
+          ? `${formatarNumero(item.desconto)}%`
+          : formatarMoeda(item.desconto)
+        : "-",
+      formatarMoeda(item.subtotal),
+    ]),
     styles: { fontSize: 10 },
     headStyles: { fillColor: VERDE },
   });
 
   const y = (doc as ComAutoTable).lastAutoTable.finalY + 10;
   doc.setFontSize(13);
-  doc.text(`Total: ${formatarMoeda(totalVenda(itens))}`, 14, y);
+  doc.text(`Total: ${formatarMoeda(venda.total)}`, 14, y);
 
-  doc.save(`recibo-${new Date().toISOString().slice(0, 10)}.pdf`);
+  doc.save(`recibo-${new Date(venda.data).toISOString().slice(0, 10)}.pdf`);
 }

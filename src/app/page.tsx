@@ -227,7 +227,10 @@ export default function EstoquePage() {
 
         {/* Resumo do dia */}
         {hydrated && temAtividade && (
-          <p className="text-center text-xs text-gray-500">
+          <Link
+            href="/vendas"
+            className="block text-center text-xs text-gray-500 hover:underline"
+          >
             Hoje: {formatarNumero(atividadeHoje.entradas)} entrada(s) ·{" "}
             {formatarNumero(atividadeHoje.saidas)} saída(s)
             {atividadeHoje.vendido > 0 && (
@@ -236,7 +239,7 @@ export default function EstoquePage() {
                 · {formatarMoeda(atividadeHoje.vendido)} vendidos
               </span>
             )}
-          </p>
+          </Link>
         )}
 
         {/* Busca */}

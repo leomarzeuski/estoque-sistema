@@ -29,7 +29,8 @@ Não há suíte de testes ainda.
 Fluxo de dados em camadas — **telas nunca acessam `localStorage` direto**:
 
 - **`lib/db.ts`** — armazenamento em `localStorage` com cache + pub/sub (SSR-safe).
-- **`services/`** — regras de negócio e escrita (`produtos.ts`, `movimentacoes.ts`).
+- **`services/`** — regras de negócio e escrita (`produtos.ts`, `movimentacoes.ts`,
+  `vendas.ts`, `clientes.ts`, `categorias.ts`, `backup.ts`, `relatorios.ts`).
 - **`hooks/`** — leitura **reativa** via `useSyncExternalStore`
   (`useProdutos`, `useMovimentacoes`, `useCollection`).
 - **`app/`** + **`components/`** — telas e UI.

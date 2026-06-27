@@ -27,13 +27,15 @@ Marque com `[x]` o que for concluído.
 - [x] **Login com um toque** (nome opcional, sem senha).
 - [x] **Acessibilidade**: modo de fonte grande.
 - [x] **Gráficos**: produtos mais vendidos e vendas por dia (acessível pelo Histórico).
+- [x] **Conveniências**: duplicar produto, editar a quantidade no cadastro
+      (registra ajuste) e ordenar a lista (atenção, nome, estoque, mais vendidos).
 
 ---
 
 ## 🔜 Curto prazo (alto valor, baixo esforço)
 
-- [ ] **Editar a quantidade direto no cadastro** com confirmação (hoje é só por
-      movimentação, de propósito — mas pode ser uma opção rápida).
+- [ ] **Favoritos**: marcar produtos usados com frequência para aparecerem no topo.
+- [ ] **Atalho do fornecedor**: enviar a lista de reposição direto para o WhatsApp do box.
 
 ---
 
@@ -55,7 +57,6 @@ Marque com `[x]` o que for concluído.
 - [ ] **Leitor de código de barras** pela câmera do celular para achar produtos.
 - [ ] **Mais gráficos**: valor de estoque ao longo do tempo, margem de lucro.
 - [ ] **Controle de fornecedores** (cadastro próprio, contatos).
-- [ ] **Modo "venda rápida"**: registrar várias saídas de uma vez (carrinho).
 - [ ] **Tema escuro** (as variáveis de cor já existem em `globals.css`).
 
 ---

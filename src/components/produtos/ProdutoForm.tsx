@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,8 +15,10 @@ import { CATEGORIAS, UNIDADES } from "@/data/catalogo";
 import {
   criarProduto,
   atualizarProduto,
+  ajustarEstoque,
   type ProdutoInput,
 } from "@/services/produtos";
+import { STORAGE } from "@/constants/storage";
 import type { Produto } from "@/types";
 
 const schema = z.object({
@@ -47,6 +50,7 @@ export function ProdutoForm({ produto }: { produto?: Produto }) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -63,10 +67,38 @@ export function ProdutoForm({ produto }: { produto?: Produto }) {
     },
   });
 
+  // Ao duplicar um produto, preenche o formulário com base no "modelo".
+  useEffect(() => {
+    if (produto) return; // edição não usa modelo
+    try {
+      const raw = sessionStorage.getItem(STORAGE.MODELO);
+      if (!raw) return;
+      const modelo = JSON.parse(raw) as Produto;
+      reset({
+        nome: `${modelo.nome} (cópia)`,
+        categoria: modelo.categoria,
+        unidade: modelo.unidade,
+        precoCusto: modelo.precoCusto,
+        precoVenda: modelo.precoVenda,
+        quantidade: 0,
+        estoqueMinimo: modelo.estoqueMinimo,
+        fornecedor: modelo.fornecedor ?? "",
+        observacao: modelo.observacao ?? "",
+      });
+      sessionStorage.removeItem(STORAGE.MODELO);
+    } catch {
+      // ignora
+    }
+  }, [produto, reset]);
+
   const onSubmit = (values: FormValues) => {
     const input: ProdutoInput = { ...values };
     if (editando && produto) {
       atualizarProduto(produto.id, input);
+      // Mudar a quantidade no cadastro registra um ajuste (mantém o histórico).
+      if (values.quantidade !== produto.quantidade) {
+        ajustarEstoque(produto.id, values.quantidade, "Ajuste no cadastro");
+      }
       toast.success("Produto atualizado!");
       router.push(`/produtos/${produto.id}`);
     } else {
@@ -155,25 +187,28 @@ export function ProdutoForm({ produto }: { produto?: Produto }) {
         </div>
       </div>
 
-      {/* Quantidade inicial (só no cadastro) + Estoque mínimo */}
+      {/* Quantidade + Estoque mínimo */}
       <div className="grid grid-cols-2 gap-3">
-        {!editando && (
-          <div>
-            <Label htmlFor="quantidade" className="mb-1 block text-base">
-              Quantidade inicial
-            </Label>
-            <Input
-              id="quantidade"
-              className="h-12"
-              type="number"
-              step="any"
-              min="0"
-              inputMode="decimal"
-              {...register("quantidade")}
-            />
-            <Erro mensagem={errors.quantidade?.message} />
-          </div>
-        )}
+        <div>
+          <Label htmlFor="quantidade" className="mb-1 block text-base">
+            {editando ? "Quantidade em estoque" : "Quantidade inicial"}
+          </Label>
+          <Input
+            id="quantidade"
+            className="h-12"
+            type="number"
+            step="any"
+            min="0"
+            inputMode="decimal"
+            {...register("quantidade")}
+          />
+          {editando && (
+            <p className="mt-1 text-xs text-gray-500">
+              Mudar aqui registra um ajuste.
+            </p>
+          )}
+          <Erro mensagem={errors.quantidade?.message} />
+        </div>
         <div>
           <Label htmlFor="estoqueMinimo" className="mb-1 block text-base">
             Estoque mínimo

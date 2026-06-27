@@ -154,6 +154,8 @@ Toque em qualquer produto para ver:
 ## ✏️ Editando ou ❌ excluindo um produto
 
 - Para **editar** (mudar nome, preço...): toque no produto e no **lápis** ✏️ no topo.
+  Ao editar, você também pode **corrigir a quantidade** (isso registra um ajuste).
+- Para **duplicar** (criar um parecido): toque no produto e em **"Duplicar produto"**.
 - Para **excluir**: toque no produto e role até **"Excluir produto"** (em vermelho).
   O sistema pede confirmação antes de apagar.
 

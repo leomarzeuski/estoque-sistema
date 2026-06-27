@@ -2,7 +2,14 @@
 
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { Pencil, Plus, Minus, SlidersHorizontal, Trash2 } from "lucide-react";
+import {
+  Pencil,
+  Plus,
+  Minus,
+  SlidersHorizontal,
+  Trash2,
+  Copy,
+} from "lucide-react";
 import { toast } from "sonner";
 
 import { PageHeader } from "@/components/PageHeader";
@@ -28,6 +35,7 @@ import { removerProduto } from "@/services/produtos";
 import { statusEstoque, STATUS_INFO, valorEmEstoque } from "@/lib/estoque";
 import { formatarMoeda, formatarNumero } from "@/lib/format";
 import { nomeUnidade, abreviacaoUnidade } from "@/data/catalogo";
+import { STORAGE } from "@/constants/storage";
 
 function Linha({ rotulo, valor }: { rotulo: string; valor: string }) {
   return (
@@ -181,6 +189,23 @@ export default function ProdutoDetalhePage() {
             unidade={produto.unidade}
           />
         </section>
+
+        {/* Duplicar */}
+        <Button
+          variant="outline"
+          className="h-12 w-full gap-2"
+          onClick={() => {
+            try {
+              sessionStorage.setItem(STORAGE.MODELO, JSON.stringify(produto));
+            } catch {
+              // ignora
+            }
+            router.push("/produtos/novo");
+          }}
+        >
+          <Copy className="size-4" />
+          Duplicar produto
+        </Button>
 
         {/* Excluir */}
         <AlertDialog>

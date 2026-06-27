@@ -11,6 +11,7 @@ import {
   PackagePlus,
   ShoppingCart,
   ChevronRight,
+  ArrowUpDown,
 } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
@@ -26,6 +27,7 @@ import { useAuth } from "@/context/AuthContext";
 import { calcularResumo, statusEstoque } from "@/lib/estoque";
 import { formatarMoeda, formatarNumero } from "@/lib/format";
 import { popularExemplos } from "@/data/exemplos";
+import type { Produto } from "@/types";
 
 const PESO_STATUS = { sem: 0, baixo: 1, ok: 2 } as const;
 
@@ -76,6 +78,7 @@ export default function EstoquePage() {
   const { user } = useAuth();
   const [busca, setBusca] = useState("");
   const [filtro, setFiltro] = useState("todos");
+  const [ordem, setOrdem] = useState("atencao");
 
   const resumo = useMemo(() => calcularResumo(produtos), [produtos]);
 
@@ -100,25 +103,44 @@ export default function EstoquePage() {
     [produtos]
   );
 
+  const vendas = useMemo(() => {
+    const mapa: Record<string, number> = {};
+    for (const m of movimentacoes) {
+      if (m.tipo === "saida") {
+        mapa[m.produtoId] = (mapa[m.produtoId] ?? 0) + m.quantidade;
+      }
+    }
+    return mapa;
+  }, [movimentacoes]);
+
   const visiveis = useMemo(() => {
     const termo = busca.trim().toLowerCase();
-    return produtos
-      .filter((p) => {
-        const achou = !termo || p.nome.toLowerCase().includes(termo);
-        const passou =
-          filtro === "todos"
-            ? true
-            : filtro === "atencao"
-              ? statusEstoque(p) !== "ok"
-              : p.categoria === filtro;
-        return achou && passou;
-      })
-      .sort(
-        (a, b) =>
-          PESO_STATUS[statusEstoque(a)] - PESO_STATUS[statusEstoque(b)] ||
-          a.nome.localeCompare(b.nome, "pt-BR")
-      );
-  }, [produtos, busca, filtro]);
+    const filtrados = produtos.filter((p) => {
+      const achou = !termo || p.nome.toLowerCase().includes(termo);
+      const passou =
+        filtro === "todos"
+          ? true
+          : filtro === "atencao"
+            ? statusEstoque(p) !== "ok"
+            : p.categoria === filtro;
+      return achou && passou;
+    });
+
+    const porNome = (a: Produto, b: Produto) =>
+      a.nome.localeCompare(b.nome, "pt-BR");
+    const comparadores: Record<string, (a: Produto, b: Produto) => number> = {
+      atencao: (a, b) =>
+        PESO_STATUS[statusEstoque(a)] - PESO_STATUS[statusEstoque(b)] ||
+        porNome(a, b),
+      nome: porNome,
+      maior: (a, b) => b.quantidade - a.quantidade || porNome(a, b),
+      menor: (a, b) => a.quantidade - b.quantidade || porNome(a, b),
+      vendidos: (a, b) =>
+        (vendas[b.id] ?? 0) - (vendas[a.id] ?? 0) || porNome(a, b),
+    };
+
+    return filtrados.sort(comparadores[ordem] ?? comparadores.atencao);
+  }, [produtos, busca, filtro, ordem, vendas]);
 
   const semProdutos = hydrated && produtos.length === 0;
   const temAtividade =
@@ -239,6 +261,25 @@ export default function EstoquePage() {
                 texto={c}
               />
             ))}
+          </div>
+        )}
+
+        {/* Ordenação */}
+        {produtos.length > 0 && (
+          <div className="flex items-center justify-end gap-2">
+            <ArrowUpDown className="size-4 text-gray-400" />
+            <select
+              value={ordem}
+              onChange={(e) => setOrdem(e.target.value)}
+              aria-label="Ordenar produtos"
+              className="h-9 rounded-md border border-input bg-white px-2 text-sm text-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <option value="atencao">Atenção primeiro</option>
+              <option value="nome">Nome (A–Z)</option>
+              <option value="maior">Mais estoque</option>
+              <option value="menor">Menos estoque</option>
+              <option value="vendidos">Mais vendidos</option>
+            </select>
           </div>
         )}
 

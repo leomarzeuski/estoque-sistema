@@ -55,10 +55,14 @@ export function MovimentacaoDrawer({
   produto,
   tipo,
   children,
+  tituloCustom,
+  motivoPadrao,
 }: {
   produto: Produto;
   tipo: TipoMovimentacao;
   children: React.ReactNode;
+  tituloCustom?: string;
+  motivoPadrao?: string;
 }) {
   const [open, setOpen] = useState(false);
   const [valor, setValor] = useState("");
@@ -72,9 +76,9 @@ export function MovimentacaoDrawer({
   useEffect(() => {
     if (open) {
       setValor(tipo === "ajuste" ? String(produto.quantidade) : "");
-      setMotivo("");
+      setMotivo(motivoPadrao ?? "");
     }
-  }, [open, tipo, produto.quantidade]);
+  }, [open, tipo, produto.quantidade, motivoPadrao]);
 
   const numero = parseFloat(valor.replace(",", ".")) || 0;
 
@@ -140,7 +144,7 @@ export function MovimentacaoDrawer({
       <DrawerContent>
         <div className="mx-auto w-full max-w-md">
           <DrawerHeader>
-            <DrawerTitle>{config.titulo}</DrawerTitle>
+            <DrawerTitle>{tituloCustom ?? config.titulo}</DrawerTitle>
             <DrawerDescription>
               {produto.nome} — em estoque agora:{" "}
               {formatarNumero(produto.quantidade)} {unidade}

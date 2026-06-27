@@ -11,6 +11,7 @@ import {
   Copy,
   Star,
   Archive,
+  RotateCcw,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -210,6 +211,19 @@ export default function ProdutoDetalhePage() {
             unidade={produto.unidade}
           />
         </section>
+
+        {/* Devolução */}
+        <MovimentacaoDrawer
+          produto={produto}
+          tipo="entrada"
+          tituloCustom="Registrar devolução"
+          motivoPadrao="Devolução"
+        >
+          <Button variant="outline" className="h-12 w-full gap-2">
+            <RotateCcw className="size-4" />
+            Registrar devolução
+          </Button>
+        </MovimentacaoDrawer>
 
         {/* Duplicar */}
         <Button

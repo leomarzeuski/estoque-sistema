@@ -2,11 +2,13 @@
 
 import { useMemo, useState } from "react";
 import { ShoppingCart, User } from "lucide-react";
+import { toast } from "sonner";
 
 import { PageHeader } from "@/components/PageHeader";
 import { MensagemEstado } from "@/components/MensagemEstado";
 import { useVendas } from "@/hooks/useVendas";
 import { useHydrated } from "@/hooks/useHydrated";
+import { marcarPago } from "@/services/vendas";
 import { formatarMoeda, formatarNumero } from "@/lib/format";
 import { abreviacaoUnidade } from "@/data/catalogo";
 import type { Venda } from "@/types";
@@ -86,6 +88,21 @@ export default function VendasPage() {
       .slice(0, 5);
   }, [filtradas]);
 
+  const aReceber = useMemo(() => {
+    const naoPagas = vendas.filter((v) => !v.pago);
+    const total = naoPagas.reduce((s, v) => s + v.total, 0);
+    const mapa = new Map<string, number>();
+    for (const v of naoPagas) {
+      mapa.set(v.clienteNome, (mapa.get(v.clienteNome) ?? 0) + v.total);
+    }
+    return {
+      total,
+      clientes: [...mapa.entries()]
+        .map(([nome, valor]) => ({ nome, valor }))
+        .sort((a, b) => b.valor - a.valor),
+    };
+  }, [vendas]);
+
   const grupos = useMemo(() => {
     const mapa = new Map<string, Venda[]>();
     for (const v of filtradas) {
@@ -141,6 +158,31 @@ export default function VendasPage() {
                 {formatarNumero(filtradas.length)} venda(s)
               </p>
             </div>
+
+            {/* A receber (fiado) */}
+            {aReceber.total > 0 && (
+              <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 shadow-sm">
+                <p className="text-xs font-medium uppercase tracking-wide text-amber-700">
+                  A receber (fiado)
+                </p>
+                <p className="text-2xl font-bold text-amber-800">
+                  {formatarMoeda(aReceber.total)}
+                </p>
+                <ul className="mt-2 divide-y divide-amber-200">
+                  {aReceber.clientes.map((c) => (
+                    <li
+                      key={c.nome}
+                      className="flex items-center justify-between py-1.5 text-sm"
+                    >
+                      <span className="truncate text-amber-900">{c.nome}</span>
+                      <span className="shrink-0 font-semibold text-amber-900">
+                        {formatarMoeda(c.valor)}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             {/* Por cliente */}
             {porCliente.length > 0 && (
@@ -198,6 +240,29 @@ export default function VendasPage() {
                         <p className="mt-1 truncate text-xs text-gray-500">
                           {hora(v.data)} · {resumoItens(v)}
                         </p>
+                        <div className="mt-2 flex items-center justify-between">
+                          <span
+                            className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
+                              v.pago
+                                ? "bg-green-100 text-green-800"
+                                : "bg-amber-100 text-amber-900"
+                            }`}
+                          >
+                            {v.pago ? "Pago" : "Fiado"}
+                          </span>
+                          {!v.pago && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                marcarPago(v.id);
+                                toast.success("Marcado como pago!");
+                              }}
+                              className="text-xs font-medium text-green-700 hover:underline"
+                            >
+                              Marcar pago
+                            </button>
+                          )}
+                        </div>
                       </li>
                     ))}
                   </ul>

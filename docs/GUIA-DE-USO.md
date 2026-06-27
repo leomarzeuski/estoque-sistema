@@ -139,6 +139,10 @@ Toque em **Venda** no menu. Para registrar uma venda:
 Pronto: o estoque baixa sozinho e sai um **recibo em PDF** com o cliente e os
 valores.
 
+> **Fiado:** antes de finalizar, escolha **Pago** ou **Fiado** (a prazo). Na tela
+> de Vendas você vê **quanto cada cliente está devendo** e toca em **"Marcar
+> pago"** quando receber.
+
 > **Ver as vendas:** toque no ícone de **recibo** (canto superior da tela de
 > Venda) ou em **"vendidos"** na tela inicial. Lá você vê **quem comprou, quando
 > e por quanto**, além de **quem mais comprou**.
@@ -174,6 +178,8 @@ Toque em qualquer produto para ver:
 - Para **editar** (mudar nome, preço...): toque no produto e no **lápis** ✏️ no topo.
   Ao editar, você também pode **corrigir a quantidade** (isso registra um ajuste).
 - Para **duplicar** (criar um parecido): toque no produto e em **"Duplicar produto"**.
+- Para **devolução** (mercadoria que voltou ou estragou): toque no produto e em
+  **"Registrar devolução"** — volta ao estoque e fica no histórico.
 - Para **arquivar** (parou de vender, mas quer guardar o histórico): toque em
   **"Arquivar produto"**. Ele some das listas; para ver ou reativar, use o filtro
   **"Arquivados"** na tela inicial.

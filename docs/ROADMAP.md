@@ -42,6 +42,9 @@ Marque com `[x]` o que for concluído.
       desconto (R$/%), cliente, e histórico de vendas com total por cliente.
 - [x] **Identidade visual**: cor verde da marca, cabeçalhos com gradiente,
       ícones por categoria (🍎🥬🥕) e borda colorida por situação do estoque.
+- [x] **Fiado/pagamento**: venda paga ou a prazo, com "a receber" por cliente
+      e "marcar pago".
+- [x] **Devolução**: registrar retorno de mercadoria ao estoque.
 
 ---
 

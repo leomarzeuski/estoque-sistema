@@ -96,4 +96,6 @@ export interface Venda {
   clienteNome: string;
   itens: VendaItem[];
   total: number;
+  /** true = pago na hora; false = fiado (a prazo). */
+  pago: boolean;
 }

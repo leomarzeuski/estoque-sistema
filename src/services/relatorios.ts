@@ -87,9 +87,10 @@ export async function baixarReciboVenda(venda: Venda): Promise<void> {
   doc.setFontSize(10);
   doc.text(new Date(venda.data).toLocaleString("pt-BR"), 14, 25);
   doc.text(`Cliente: ${venda.clienteNome}`, 14, 31);
+  doc.text(`Pagamento: ${venda.pago ? "Pago" : "Fiado"}`, 14, 37);
 
   autoTable(doc, {
-    startY: 38,
+    startY: 43,
     head: [["Produto", "Qtd", "Preço un.", "Desconto", "Subtotal"]],
     body: venda.itens.map((item) => [
       item.nome,

@@ -52,6 +52,7 @@ export default function VendaPage() {
   const [clienteId, setClienteId] = useState("");
   const [mostrarNovoCliente, setMostrarNovoCliente] = useState(false);
   const [nomeNovoCliente, setNomeNovoCliente] = useState("");
+  const [pago, setPago] = useState(true);
 
   const resultados = useMemo(() => {
     const termo = busca.trim().toLowerCase();
@@ -148,10 +149,16 @@ export default function VendaPage() {
       clienteId: cliente?.id,
       clienteNome: cliente?.nome ?? "Cliente avulso",
       itens: vendaItens,
+      pago,
     });
     setItens([]);
     setClienteId("");
-    toast.success(`Venda de ${formatarMoeda(venda.total)} registrada!`);
+    setPago(true);
+    toast.success(
+      `Venda de ${formatarMoeda(venda.total)} registrada${
+        venda.pago ? "" : " (fiado)"
+      }!`
+    );
     await baixarReciboVenda(venda);
   };
 
@@ -217,6 +224,37 @@ export default function VendaPage() {
               </Button>
             </div>
           )}
+
+          {/* Pagamento */}
+          <div className="mt-3">
+            <label className="mb-1 block text-sm font-medium text-gray-700">
+              Pagamento
+            </label>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => setPago(true)}
+                className={`h-10 flex-1 rounded-md border text-sm font-medium ${
+                  pago
+                    ? "border-green-600 bg-green-50 text-green-700"
+                    : "border-gray-200 bg-white text-gray-600"
+                }`}
+              >
+                Pago
+              </button>
+              <button
+                type="button"
+                onClick={() => setPago(false)}
+                className={`h-10 flex-1 rounded-md border text-sm font-medium ${
+                  !pago
+                    ? "border-amber-500 bg-amber-50 text-amber-700"
+                    : "border-gray-200 bg-white text-gray-600"
+                }`}
+              >
+                Fiado
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Buscar produto para adicionar */}
@@ -384,6 +422,7 @@ export default function VendaPage() {
                 {clienteId
                   ? clientes.find((c) => c.id === clienteId)?.nome
                   : "Cliente avulso"}
+                {!pago && " · Fiado"}
               </p>
               <p className="text-xl font-bold text-gray-900">
                 {formatarMoeda(total)}

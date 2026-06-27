@@ -19,6 +19,7 @@ export interface VendaInput {
   clienteId?: string;
   clienteNome: string;
   itens: VendaItem[];
+  pago: boolean;
 }
 
 /** Registra a venda e baixa o estoque de cada item pelo preço efetivo. */
@@ -31,6 +32,7 @@ export function registrarVenda(input: VendaInput): Venda {
     clienteNome: input.clienteNome,
     itens: input.itens,
     total,
+    pago: input.pago,
   };
   write<Venda>(VENDAS_KEY, [venda, ...read<Venda>(VENDAS_KEY)]);
 
@@ -48,4 +50,14 @@ export function registrarVenda(input: VendaInput): Venda {
   }
 
   return venda;
+}
+
+/** Marca uma venda fiada como paga. */
+export function marcarPago(id: string): void {
+  const vendas = read<Venda>(VENDAS_KEY);
+  const indice = vendas.findIndex((v) => v.id === id);
+  if (indice === -1) return;
+  const novas = [...vendas];
+  novas[indice] = { ...novas[indice], pago: true };
+  write<Venda>(VENDAS_KEY, novas);
 }

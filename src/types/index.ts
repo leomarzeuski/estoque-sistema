@@ -19,6 +19,10 @@ export interface Produto {
   precoCusto: number;
   /** Por quanto é revendido (por unidade). */
   precoVenda: number;
+  /** Unidade alternativa de venda, ex: "kg" (opcional). */
+  unidadeVenda?: string;
+  /** Quantos `unidadeVenda` cabem em 1 `unidade` de estoque (ex: 20 kg por caixa). */
+  fatorConversao?: number;
   /** Quantidade atual em estoque. Só muda via movimentações. */
   quantidade: number;
   /** Quando atingir esse valor ou menos, o produto entra em "estoque baixo". */
@@ -85,6 +89,8 @@ export interface VendaItem {
   descontoTipo: DescontoTipo;
   /** (precoUnitario x quantidade) menos o desconto. */
   subtotal: number;
+  /** Quanto baixar do estoque, na unidade de estoque (para venda em unidade alternativa). */
+  quantidadeEstoque?: number;
 }
 
 /** Uma venda registrada: para quem, quando, o quê e por quanto. */

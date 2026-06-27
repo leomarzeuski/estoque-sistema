@@ -39,11 +39,12 @@ export function registrarVenda(input: VendaInput): Venda {
   const temCliente =
     input.clienteNome && input.clienteNome !== "Cliente avulso";
   for (const item of input.itens) {
+    const qtdEstoque = item.quantidadeEstoque ?? item.quantidade;
     const precoEfetivo =
-      item.quantidade > 0 ? item.subtotal / item.quantidade : item.precoUnitario;
+      qtdEstoque > 0 ? item.subtotal / qtdEstoque : item.precoUnitario;
     registrarSaida(
       item.produtoId,
-      item.quantidade,
+      qtdEstoque,
       temCliente ? `Venda - ${input.clienteNome}` : "Venda",
       precoEfetivo
     );

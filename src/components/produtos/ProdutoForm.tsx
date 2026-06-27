@@ -33,6 +33,8 @@ const schema = z.object({
   estoqueMinimo: z.coerce.number().min(0, "Não pode ser negativo"),
   fornecedor: z.string().optional(),
   observacao: z.string().optional(),
+  unidadeVenda: z.string().optional(),
+  fatorConversao: z.coerce.number().min(0),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -70,6 +72,8 @@ export function ProdutoForm({ produto }: { produto?: Produto }) {
       estoqueMinimo: produto?.estoqueMinimo ?? 0,
       fornecedor: produto?.fornecedor ?? "",
       observacao: produto?.observacao ?? "",
+      unidadeVenda: produto?.unidadeVenda ?? "",
+      fatorConversao: produto?.fatorConversao ?? 0,
     },
   });
 
@@ -90,6 +94,8 @@ export function ProdutoForm({ produto }: { produto?: Produto }) {
         estoqueMinimo: modelo.estoqueMinimo,
         fornecedor: modelo.fornecedor ?? "",
         observacao: modelo.observacao ?? "",
+        unidadeVenda: modelo.unidadeVenda ?? "",
+        fatorConversao: modelo.fatorConversao ?? 0,
       });
       sessionStorage.removeItem(STORAGE.MODELO);
     } catch {
@@ -281,6 +287,35 @@ export function ProdutoForm({ produto }: { produto?: Produto }) {
           placeholder="Ex: Box 142"
           {...register("fornecedor")}
         />
+      </div>
+
+      {/* Unidade alternativa de venda */}
+      <div>
+        <Label className="mb-1 block text-base">
+          Vender também por <span className="text-gray-400">(opcional)</span>
+        </Label>
+        <div className="grid grid-cols-2 gap-3">
+          <select className={selectClasse} {...register("unidadeVenda")}>
+            <option value="">Não</option>
+            {UNIDADES.map((u) => (
+              <option key={u.id} value={u.id}>
+                {u.nome}
+              </option>
+            ))}
+          </select>
+          <Input
+            type="number"
+            step="any"
+            min="0"
+            inputMode="decimal"
+            placeholder="qtde por unidade"
+            className="h-12"
+            {...register("fatorConversao")}
+          />
+        </div>
+        <p className="mt-1 text-xs text-gray-500">
+          Quantas unidades alternativas cabem em 1 do estoque. Ex: 1 caixa = 20 kg.
+        </p>
       </div>
 
       {/* Observação */}

@@ -27,6 +27,8 @@ export interface ProdutoInput {
   estoqueMinimo: number;
   fornecedor?: string;
   observacao?: string;
+  unidadeVenda?: string;
+  fatorConversao?: number;
 }
 
 export function listarProdutos(): Produto[] {
@@ -51,6 +53,8 @@ export function criarProduto(input: ProdutoInput): Produto {
     estoqueMinimo: input.estoqueMinimo,
     fornecedor: input.fornecedor?.trim() || undefined,
     observacao: input.observacao?.trim() || undefined,
+    unidadeVenda: input.unidadeVenda || undefined,
+    fatorConversao: input.fatorConversao || undefined,
     criadoEm: agora,
     atualizadoEm: agora,
   };
@@ -94,6 +98,8 @@ export function atualizarProduto(
     estoqueMinimo: input.estoqueMinimo,
     fornecedor: input.fornecedor?.trim() || undefined,
     observacao: input.observacao?.trim() || undefined,
+    unidadeVenda: input.unidadeVenda || undefined,
+    fatorConversao: input.fatorConversao || undefined,
     atualizadoEm: new Date().toISOString(),
   };
 

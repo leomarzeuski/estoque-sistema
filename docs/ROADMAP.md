@@ -45,6 +45,8 @@ Marque com `[x]` o que for concluído.
 - [x] **Fiado/pagamento**: venda paga ou a prazo, com "a receber" por cliente
       e "marcar pago".
 - [x] **Devolução**: registrar retorno de mercadoria ao estoque.
+- [x] **Venda por unidade alternativa** (ex: caixa ou kg) com conversão na baixa
+      do estoque.
 
 ---
 

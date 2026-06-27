@@ -94,6 +94,10 @@ hora de comprar:
 
 > Não achou a categoria na lista? Toque em **"+ nova categoria"** para criar a sua.
 
+> Vende o mesmo produto por **caixa e por quilo**? Preencha **"Vender também
+> por"** (ex: kg) e quantos cabem em 1 (ex: 20 kg por caixa). Na venda você
+> escolhe a unidade.
+
 ---
 
 ## 📥 Quando chega mercadoria (Entrada)
@@ -142,6 +146,10 @@ valores.
 > **Fiado:** antes de finalizar, escolha **Pago** ou **Fiado** (a prazo). Na tela
 > de Vendas você vê **quanto cada cliente está devendo** e toca em **"Marcar
 > pago"** quando receber.
+
+> **Caixa ou kg:** se o produto tiver unidade alternativa, no item da venda
+> aparecem botões (ex: **Caixa** / **Quilo**) — escolha como está vendendo e o
+> preço se ajusta.
 
 > **Ver as vendas:** toque no ícone de **recibo** (canto superior da tela de
 > Venda) ou em **"vendidos"** na tela inicial. Lá você vê **quem comprou, quando

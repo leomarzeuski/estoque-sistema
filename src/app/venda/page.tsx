@@ -25,16 +25,20 @@ import { criarCliente } from "@/services/clientes";
 import { baixarReciboVenda } from "@/services/relatorios";
 import { calcularSubtotal } from "@/lib/venda";
 import { formatarMoeda, formatarNumero } from "@/lib/format";
-import { abreviacaoUnidade } from "@/data/catalogo";
+import { abreviacaoUnidade, nomeUnidade } from "@/data/catalogo";
 import type { DescontoTipo, VendaItem } from "@/types";
 
 interface ItemCarrinho {
   produtoId: string;
   nome: string;
-  unidade: string;
-  estoque: number;
-  quantidade: number;
-  preco: number;
+  unidadeEstoque: string;
+  estoque: number; // em unidades de estoque
+  unidadeVenda?: string;
+  fator?: number; // unidades alternativas por 1 de estoque
+  usandoAlt: boolean;
+  precoBase: number; // preço por unidade de estoque
+  quantidade: number; // na unidade selecionada
+  preco: number; // por unidade selecionada
   desconto: number;
   descontoTipo: DescontoTipo;
 }
@@ -90,8 +94,12 @@ export default function VendaPage() {
         {
           produtoId: p.id,
           nome: p.nome,
-          unidade: p.unidade,
+          unidadeEstoque: p.unidade,
           estoque: p.quantidade,
+          unidadeVenda: p.unidadeVenda,
+          fator: p.fatorConversao,
+          usandoAlt: false,
+          precoBase: p.precoVenda,
           quantidade: 1,
           preco: p.precoVenda,
           desconto: 0,
@@ -109,14 +117,26 @@ export default function VendaPage() {
 
   const mudarQtd = (produtoId: string, delta: number) =>
     setItens((prev) =>
-      prev.map((i) =>
-        i.produtoId === produtoId
-          ? {
-              ...i,
-              quantidade: Math.max(1, Math.min(i.estoque, i.quantidade + delta)),
-            }
-          : i
-      )
+      prev.map((i) => {
+        if (i.produtoId !== produtoId) return i;
+        const max = i.usandoAlt ? i.estoque * (i.fator ?? 1) : i.estoque;
+        return {
+          ...i,
+          quantidade: Math.max(1, Math.min(max, i.quantidade + delta)),
+        };
+      })
+    );
+
+  const alternarUnidade = (produtoId: string, usarAlt: boolean) =>
+    setItens((prev) =>
+      prev.map((i) => {
+        if (i.produtoId !== produtoId || !i.unidadeVenda || !i.fator) return i;
+        if (usarAlt === i.usandoAlt) return i;
+        const preco = usarAlt
+          ? Math.round((i.precoBase / i.fator) * 100) / 100
+          : i.precoBase;
+        return { ...i, usandoAlt: usarAlt, preco, quantidade: 1, desconto: 0 };
+      })
     );
 
   const remover = (produtoId: string) =>
@@ -135,16 +155,28 @@ export default function VendaPage() {
   const finalizar = async () => {
     if (itens.length === 0) return;
     const cliente = clientes.find((c) => c.id === clienteId);
-    const vendaItens: VendaItem[] = itens.map((i) => ({
-      produtoId: i.produtoId,
-      nome: i.nome,
-      unidade: i.unidade,
-      quantidade: i.quantidade,
-      precoUnitario: i.preco,
-      desconto: i.desconto,
-      descontoTipo: i.descontoTipo,
-      subtotal: calcularSubtotal(i.preco, i.quantidade, i.desconto, i.descontoTipo),
-    }));
+    const vendaItens: VendaItem[] = itens.map((i) => {
+      const usandoAlt = Boolean(i.usandoAlt && i.unidadeVenda && i.fator);
+      const qtdEstoque = usandoAlt
+        ? i.quantidade / (i.fator as number)
+        : i.quantidade;
+      return {
+        produtoId: i.produtoId,
+        nome: i.nome,
+        unidade: usandoAlt ? (i.unidadeVenda as string) : i.unidadeEstoque,
+        quantidade: i.quantidade,
+        precoUnitario: i.preco,
+        desconto: i.desconto,
+        descontoTipo: i.descontoTipo,
+        subtotal: calcularSubtotal(
+          i.preco,
+          i.quantidade,
+          i.desconto,
+          i.descontoTipo
+        ),
+        quantidadeEstoque: qtdEstoque,
+      };
+    });
     const venda = registrarVenda({
       clienteId: cliente?.id,
       clienteNome: cliente?.nome ?? "Cliente avulso",
@@ -298,7 +330,10 @@ export default function VendaPage() {
         ) : (
           <div className="space-y-3">
             {itens.map((i) => {
-              const un = abreviacaoUnidade(i.unidade);
+              const temAlt = Boolean(i.unidadeVenda && i.fator);
+              const un = abreviacaoUnidade(
+                i.usandoAlt ? (i.unidadeVenda as string) : i.unidadeEstoque
+              );
               const subtotal = calcularSubtotal(
                 i.preco,
                 i.quantidade,
@@ -321,6 +356,33 @@ export default function VendaPage() {
                       <X className="size-5" />
                     </button>
                   </div>
+
+                  {temAlt && (
+                    <div className="mt-2 flex gap-1">
+                      <button
+                        type="button"
+                        onClick={() => alternarUnidade(i.produtoId, false)}
+                        className={`rounded-md border px-2 py-1 text-xs font-medium ${
+                          !i.usandoAlt
+                            ? "border-green-600 bg-green-50 text-green-700"
+                            : "border-gray-200 bg-white text-gray-600"
+                        }`}
+                      >
+                        {nomeUnidade(i.unidadeEstoque)}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => alternarUnidade(i.produtoId, true)}
+                        className={`rounded-md border px-2 py-1 text-xs font-medium ${
+                          i.usandoAlt
+                            ? "border-green-600 bg-green-50 text-green-700"
+                            : "border-gray-200 bg-white text-gray-600"
+                        }`}
+                      >
+                        {nomeUnidade(i.unidadeVenda as string)}
+                      </button>
+                    </div>
+                  )}
 
                   {/* Quantidade */}
                   <div className="mt-2 flex items-center gap-2">

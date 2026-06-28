@@ -184,6 +184,14 @@ export default function ProdutoDetalhePage() {
               rotulo="Lucro por unidade"
               valor={formatarMoeda(lucro)}
             />
+            {produto.precoCusto > 0 && (
+              <Linha
+                rotulo="Margem"
+                valor={`${formatarNumero(
+                  Math.round((lucro / produto.precoCusto) * 100)
+                )}%`}
+              />
+            )}
             <Linha
               rotulo="Valor em estoque"
               valor={formatarMoeda(valorEmEstoque(produto))}

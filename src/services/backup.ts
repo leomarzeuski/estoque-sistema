@@ -3,14 +3,18 @@
  *
  * Como os dados ficam só no aparelho, o backup é a forma de não perder tudo
  * (e de levar os dados de um aparelho para outro manualmente).
+ * Inclui produtos, movimentações, clientes, vendas e categorias.
  */
 
 import { read, write } from "@/lib/db";
 import { PRODUTOS_KEY } from "./produtos";
 import { MOVIMENTACOES_KEY } from "./movimentacoes";
-import type { Produto, Movimentacao } from "@/types";
+import { CLIENTES_KEY } from "./clientes";
+import { VENDAS_KEY } from "./vendas";
+import { CATEGORIAS_KEY } from "./categorias";
+import type { Produto, Movimentacao, Cliente, Venda } from "@/types";
 
-const VERSAO_BACKUP = 1;
+const VERSAO_BACKUP = 2;
 
 interface Backup {
   app: "meu-estoque";
@@ -18,6 +22,9 @@ interface Backup {
   exportadoEm: string;
   produtos: Produto[];
   movimentacoes: Movimentacao[];
+  clientes: Cliente[];
+  vendas: Venda[];
+  categorias: string[];
 }
 
 /** Monta o objeto de backup com todos os dados atuais. */
@@ -28,6 +35,9 @@ export function gerarBackup(): Backup {
     exportadoEm: new Date().toISOString(),
     produtos: read<Produto>(PRODUTOS_KEY),
     movimentacoes: read<Movimentacao>(MOVIMENTACOES_KEY),
+    clientes: read<Cliente>(CLIENTES_KEY),
+    vendas: read<Venda>(VENDAS_KEY),
+    categorias: read<string>(CATEGORIAS_KEY),
   };
 }
 
@@ -54,6 +64,7 @@ export type ResultadoRestauracao =
 /**
  * Restaura os dados a partir do conteúdo de um arquivo de backup.
  * ATENÇÃO: substitui completamente os dados atuais.
+ * Compatível com backups antigos (sem clientes/vendas/categorias).
  */
 export function restaurarBackup(conteudo: string): ResultadoRestauracao {
   let dados: Partial<Backup>;
@@ -77,6 +88,15 @@ export function restaurarBackup(conteudo: string): ResultadoRestauracao {
 
   write<Produto>(PRODUTOS_KEY, dados.produtos as Produto[]);
   write<Movimentacao>(MOVIMENTACOES_KEY, dados.movimentacoes as Movimentacao[]);
+  if (Array.isArray(dados.clientes)) {
+    write<Cliente>(CLIENTES_KEY, dados.clientes as Cliente[]);
+  }
+  if (Array.isArray(dados.vendas)) {
+    write<Venda>(VENDAS_KEY, dados.vendas as Venda[]);
+  }
+  if (Array.isArray(dados.categorias)) {
+    write<string>(CATEGORIAS_KEY, dados.categorias as string[]);
+  }
 
   return {
     ok: true,

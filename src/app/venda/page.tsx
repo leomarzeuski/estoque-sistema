@@ -37,6 +37,7 @@ interface ItemCarrinho {
   fator?: number; // unidades alternativas por 1 de estoque
   usandoAlt: boolean;
   precoBase: number; // preço por unidade de estoque
+  custo: number; // custo por unidade de estoque
   quantidade: number; // na unidade selecionada
   preco: number; // por unidade selecionada
   desconto: number;
@@ -100,6 +101,7 @@ export default function VendaPage() {
           fator: p.fatorConversao,
           usandoAlt: false,
           precoBase: p.precoVenda,
+          custo: p.precoCusto,
           quantidade: 1,
           preco: p.precoVenda,
           desconto: 0,
@@ -175,6 +177,7 @@ export default function VendaPage() {
           i.descontoTipo
         ),
         quantidadeEstoque: qtdEstoque,
+        custoUnitario: i.custo,
       };
     });
     const venda = registrarVenda({

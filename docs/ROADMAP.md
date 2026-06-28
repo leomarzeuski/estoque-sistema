@@ -47,6 +47,8 @@ Marque com `[x]` o que for concluído.
 - [x] **Devolução**: registrar retorno de mercadoria ao estoque.
 - [x] **Venda por unidade alternativa** (ex: caixa ou kg) com conversão na baixa
       do estoque.
+- [x] **Lucro/margem**: lucro do dia e do período (faturamento − custo).
+- [x] **Página de clientes**: total comprado, quanto está devendo, adicionar/remover.
 
 ---
 

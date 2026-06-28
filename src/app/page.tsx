@@ -23,11 +23,13 @@ import { ProdutoCard } from "@/components/produtos/ProdutoCard";
 import { ListaReposicaoDrawer } from "@/components/produtos/ListaReposicaoDrawer";
 import { useProdutos } from "@/hooks/useProdutos";
 import { useMovimentacoes } from "@/hooks/useMovimentacoes";
+import { useVendas } from "@/hooks/useVendas";
 import { useHydrated } from "@/hooks/useHydrated";
 import { useAuth } from "@/context/AuthContext";
 import { calcularResumo, statusEstoque } from "@/lib/estoque";
 import { formatarMoeda, formatarNumero } from "@/lib/format";
 import { iconeCategoria } from "@/lib/categoria-icone";
+import { lucroVenda } from "@/lib/venda";
 import { popularExemplos } from "@/data/exemplos";
 import type { Produto } from "@/types";
 
@@ -76,6 +78,7 @@ function CardResumo({
 export default function EstoquePage() {
   const produtos = useProdutos();
   const movimentacoes = useMovimentacoes();
+  const vendas = useVendas();
   const hydrated = useHydrated();
   const { user } = useAuth();
   const [busca, setBusca] = useState("");
@@ -106,12 +109,19 @@ export default function EstoquePage() {
     };
   }, [movimentacoes]);
 
+  const lucroHoje = useMemo(() => {
+    const dia = new Date().toDateString();
+    return vendas
+      .filter((v) => new Date(v.data).toDateString() === dia)
+      .reduce((soma, v) => soma + lucroVenda(v), 0);
+  }, [vendas]);
+
   const categorias = useMemo(
     () => Array.from(new Set(ativos.map((p) => p.categoria))).sort(),
     [ativos]
   );
 
-  const vendas = useMemo(() => {
+  const vendasPorProduto = useMemo(() => {
     const mapa: Record<string, number> = {};
     for (const m of movimentacoes) {
       if (m.tipo === "saida") {
@@ -145,7 +155,8 @@ export default function EstoquePage() {
       maior: (a, b) => b.quantidade - a.quantidade || porNome(a, b),
       menor: (a, b) => a.quantidade - b.quantidade || porNome(a, b),
       vendidos: (a, b) =>
-        (vendas[b.id] ?? 0) - (vendas[a.id] ?? 0) || porNome(a, b),
+        (vendasPorProduto[b.id] ?? 0) - (vendasPorProduto[a.id] ?? 0) ||
+        porNome(a, b),
     };
 
     const comparar = comparadores[ordem] ?? comparadores.atencao;
@@ -154,7 +165,7 @@ export default function EstoquePage() {
         Number(Boolean(b.favorito)) - Number(Boolean(a.favorito)) ||
         comparar(a, b)
     );
-  }, [ativos, arquivados, busca, filtro, ordem, vendas]);
+  }, [ativos, arquivados, busca, filtro, ordem, vendasPorProduto]);
 
   const semProdutos = hydrated && produtos.length === 0;
   const temAtividade =
@@ -238,6 +249,12 @@ export default function EstoquePage() {
               <span className="font-medium text-green-700">
                 {" "}
                 · {formatarMoeda(atividadeHoje.vendido)} vendidos
+              </span>
+            )}
+            {lucroHoje > 0 && (
+              <span className="font-medium text-emerald-700">
+                {" "}
+                · {formatarMoeda(lucroHoje)} de lucro
               </span>
             )}
           </Link>

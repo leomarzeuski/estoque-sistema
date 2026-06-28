@@ -151,6 +151,9 @@ valores.
 > aparecem botões (ex: **Caixa** / **Quilo**) — escolha como está vendendo e o
 > preço se ajusta.
 
+> **Lucro:** na tela de Vendas e na tela inicial aparece o **lucro** (o que sobra
+> depois do custo), não só o quanto vendeu.
+
 > **Ver as vendas:** toque no ícone de **recibo** (canto superior da tela de
 > Venda) ou em **"vendidos"** na tela inicial. Lá você vê **quem comprou, quando
 > e por quanto**, além de **quem mais comprou**.
@@ -193,6 +196,14 @@ Toque em qualquer produto para ver:
   **"Arquivados"** na tela inicial.
 - Para **excluir**: toque no produto e role até **"Excluir produto"** (em vermelho).
   O sistema pede confirmação antes de apagar.
+
+---
+
+## 👥 Clientes
+
+Toque no ícone de **pessoas** no topo da tela de Vendas para abrir a lista de
+**Clientes**. Lá você vê quanto cada um **já comprou** e **quanto está devendo**
+(fiado), pode **adicionar** um cliente novo e **remover** quem não usa mais.
 
 ---
 

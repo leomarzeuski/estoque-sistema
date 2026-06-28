@@ -30,7 +30,8 @@ tecnologia.
   todo dia) e **desconto** (R$ ou %), escolha o **cliente** e finalize — baixa o
   estoque e gera **recibo em PDF**.
 - **Clientes e histórico de vendas**: saiba **pra quem vendeu, quando e por
-  quanto**, e **quem mais comprou**.
+  quanto**, **quem mais comprou** e **quem está devendo** (fiado).
+- **Lucro**: além do faturamento, veja o **lucro** (venda − custo) do dia e do período.
 - **Histórico** geral de tudo que entra e sai, agrupado por dia e com o
   **faturamento** do dia.
 - **Relatório do estoque em PDF** para imprimir ou guardar.

@@ -1,7 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ShoppingCart, User } from "lucide-react";
+import Link from "next/link";
+import { ShoppingCart, User, Users } from "lucide-react";
 import { toast } from "sonner";
 
 import { PageHeader } from "@/components/PageHeader";
@@ -10,6 +11,7 @@ import { useVendas } from "@/hooks/useVendas";
 import { useHydrated } from "@/hooks/useHydrated";
 import { marcarPago } from "@/services/vendas";
 import { formatarMoeda, formatarNumero } from "@/lib/format";
+import { lucroVenda } from "@/lib/venda";
 import { abreviacaoUnidade } from "@/data/catalogo";
 import type { Venda } from "@/types";
 
@@ -76,6 +78,7 @@ export default function VendasPage() {
   }, [vendas, periodo]);
 
   const totalPeriodo = filtradas.reduce((soma, v) => soma + v.total, 0);
+  const lucroPeriodo = filtradas.reduce((soma, v) => soma + lucroVenda(v), 0);
 
   const porCliente = useMemo(() => {
     const mapa = new Map<string, number>();
@@ -116,7 +119,19 @@ export default function VendasPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-24 md:pb-8">
-      <PageHeader titulo="Vendas" voltarHref="/" />
+      <PageHeader
+        titulo="Vendas"
+        voltarHref="/"
+        acao={
+          <Link
+            href="/clientes"
+            aria-label="Clientes"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-white hover:bg-white/20"
+          >
+            <Users size={20} />
+          </Link>
+        }
+      />
 
       <div className="mx-auto max-w-2xl space-y-4 p-4">
         {/* Período */}
@@ -155,7 +170,10 @@ export default function VendasPage() {
                 {formatarMoeda(totalPeriodo)}
               </p>
               <p className="mt-1 text-sm text-gray-500">
-                {formatarNumero(filtradas.length)} venda(s)
+                {formatarNumero(filtradas.length)} venda(s) · Lucro{" "}
+                <span className="font-medium text-green-700">
+                  {formatarMoeda(lucroPeriodo)}
+                </span>
               </p>
             </div>
 

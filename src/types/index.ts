@@ -91,6 +91,8 @@ export interface VendaItem {
   subtotal: number;
   /** Quanto baixar do estoque, na unidade de estoque (para venda em unidade alternativa). */
   quantidadeEstoque?: number;
+  /** Custo unitário (por unidade de estoque) no momento da venda, para o lucro. */
+  custoUnitario?: number;
 }
 
 /** Uma venda registrada: para quem, quando, o quê e por quanto. */

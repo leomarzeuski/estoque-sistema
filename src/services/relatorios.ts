@@ -15,6 +15,7 @@ import {
   calcularResumo,
 } from "@/lib/estoque";
 import { formatarMoeda, formatarNumero } from "@/lib/format";
+import { lucroVenda } from "@/lib/venda";
 import { abreviacaoUnidade } from "@/data/catalogo";
 
 /** jsPDF + autotable expõe `lastAutoTable.finalY` para posicionar o que vem depois. */
@@ -112,4 +113,49 @@ export async function baixarReciboVenda(venda: Venda): Promise<void> {
   doc.text(`Total: ${formatarMoeda(venda.total)}`, 14, y);
 
   doc.save(`recibo-${new Date(venda.data).toISOString().slice(0, 10)}.pdf`);
+}
+
+/** Gera e baixa o relatório de vendas do período, com totais e lucro. */
+export async function baixarRelatorioVendas(
+  vendas: Venda[],
+  periodo: string
+): Promise<void> {
+  const { doc, autoTable } = await novoPdf();
+
+  doc.setFontSize(16);
+  doc.text("Relatório de Vendas", 14, 18);
+  doc.setFontSize(10);
+  doc.text(
+    `Período: ${periodo} · Gerado em ${new Date().toLocaleString("pt-BR")}`,
+    14,
+    25
+  );
+
+  const ordenadas = [...vendas].sort((a, b) => a.data.localeCompare(b.data));
+  autoTable(doc, {
+    startY: 32,
+    head: [["Data", "Cliente", "Pagamento", "Total"]],
+    body: ordenadas.map((v) => [
+      new Date(v.data).toLocaleDateString("pt-BR"),
+      v.clienteNome,
+      v.pago ? "Pago" : "Fiado",
+      formatarMoeda(v.total),
+    ]),
+    styles: { fontSize: 9 },
+    headStyles: { fillColor: VERDE },
+  });
+
+  const totalVendido = vendas.reduce((s, v) => s + v.total, 0);
+  const totalLucro = vendas.reduce((s, v) => s + lucroVenda(v), 0);
+  const totalFiado = vendas
+    .filter((v) => !v.pago)
+    .reduce((s, v) => s + v.total, 0);
+
+  const y = (doc as ComAutoTable).lastAutoTable.finalY + 10;
+  doc.setFontSize(11);
+  doc.text(`Total vendido: ${formatarMoeda(totalVendido)}`, 14, y);
+  doc.text(`Lucro: ${formatarMoeda(totalLucro)}`, 14, y + 6);
+  doc.text(`A receber (fiado): ${formatarMoeda(totalFiado)}`, 14, y + 12);
+
+  doc.save(`relatorio-vendas-${new Date().toISOString().slice(0, 10)}.pdf`);
 }

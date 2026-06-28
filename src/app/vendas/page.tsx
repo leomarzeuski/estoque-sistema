@@ -2,14 +2,16 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { ShoppingCart, User, Users } from "lucide-react";
+import { ShoppingCart, User, Users, Download } from "lucide-react";
 import { toast } from "sonner";
 
 import { PageHeader } from "@/components/PageHeader";
 import { MensagemEstado } from "@/components/MensagemEstado";
+import { Button } from "@/components/ui/button";
 import { useVendas } from "@/hooks/useVendas";
 import { useHydrated } from "@/hooks/useHydrated";
 import { marcarPago } from "@/services/vendas";
+import { baixarRelatorioVendas } from "@/services/relatorios";
 import { formatarMoeda, formatarNumero } from "@/lib/format";
 import { lucroVenda } from "@/lib/venda";
 import { abreviacaoUnidade } from "@/data/catalogo";
@@ -176,6 +178,20 @@ export default function VendasPage() {
                 </span>
               </p>
             </div>
+
+            {/* Relatório PDF */}
+            <Button
+              variant="outline"
+              className="h-11 w-full gap-2"
+              onClick={() =>
+                baixarRelatorioVendas(
+                  filtradas,
+                  PERIODOS.find((p) => p.id === periodo)?.label ?? ""
+                )
+              }
+            >
+              <Download className="size-4" /> Baixar relatório (PDF)
+            </Button>
 
             {/* A receber (fiado) */}
             {aReceber.total > 0 && (

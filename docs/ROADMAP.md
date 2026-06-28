@@ -49,6 +49,8 @@ Marque com `[x]` o que for concluído.
       do estoque.
 - [x] **Lucro/margem**: lucro do dia e do período (faturamento − custo).
 - [x] **Página de clientes**: total comprado, quanto está devendo, adicionar/remover.
+- [x] **Relatório de vendas em PDF** (período, com vendido, lucro e a receber).
+- [x] **Backup completo** (produtos, movimentações, clientes, vendas e categorias).
 
 ---
 

@@ -18,7 +18,7 @@ export function MobileBottomNav() {
               key={item.title}
               href={item.url}
               className={`flex flex-col items-center justify-center w-full py-2 hover:bg-gray-50 ${
-                active ? "text-blue-600 font-semibold" : "text-gray-600"
+                active ? "text-green-600 font-semibold" : "text-gray-600"
               }`}
             >
               <item.icon size={20} />

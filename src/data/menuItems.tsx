@@ -1,4 +1,4 @@
-import { Home } from "lucide-react";
+import { Home, ShoppingCart, History, Settings } from "lucide-react";
 
 interface NavItem {
   title: string;
@@ -6,4 +6,9 @@ interface NavItem {
   icon: React.ComponentType<{ size?: number; className?: string }>;
 }
 
-export const NavItems: NavItem[] = [{ title: "Pedidos", url: "/", icon: Home }];
+export const NavItems: NavItem[] = [
+  { title: "Estoque", url: "/", icon: Home },
+  { title: "Venda", url: "/venda", icon: ShoppingCart },
+  { title: "Histórico", url: "/historico", icon: History },
+  { title: "Ajustes", url: "/configuracoes", icon: Settings },
+];
